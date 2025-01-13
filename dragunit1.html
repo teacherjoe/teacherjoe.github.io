@@ -232,45 +232,71 @@
 <audio id="correct-sound" src="correct.mp3"></audio>
 <audio id="incorrect-sound" src="incorrect.mp3"></audio>
 <script>
-    function allowDrop(event) {
-        event.preventDefault();
-    }
-    function drag(event) {
-        event.dataTransfer.setData("text", event.target.id);
-        setTimeout(() => {
-            event.target.classList.add("hidden");
-        }, 0);
-    }
-    function endDrag(event) {
-        event.target.classList.remove("hidden");
-    }
-    function drop(event) {
-        event.preventDefault();
-        const data = event.dataTransfer.getData("text");
-        const target = event.target;
-        if (target.classList.contains("dropzone")) {
-            const phrase = document.getElementById(data);
-            if (data === target.getAttribute("data-correct")) {
-                const textNode = document.createElement("p");
-                textNode.textContent = phrase.textContent;
-                target.appendChild(textNode);
-                target.querySelector(".tick").style.display = "inline";
-                target.querySelector(".cross").style.display = "none";
-                phrase.style.display = "none";
-                document.getElementById("correct-sound").play();
-                checkCompletion();
-            } else {
-                target.querySelector(".cross").style.display = "inline";
-                target.querySelector(".tick").style.display = "none";
-                document.getElementById("incorrect-sound").play();
-                phrase.classList.remove("hidden");
+let draggedElement = null;
+
+function enableDragAndDrop() {
+    const phrases = document.querySelectorAll(".phrase");
+    const dropzones = document.querySelectorAll(".dropzone");
+
+    // Add pointer event listeners for phrases (draggable elements)
+    phrases.forEach((phrase) => {
+        phrase.addEventListener("pointerdown", (event) => {
+            draggedElement = event.target;
+            event.target.setPointerCapture(event.pointerId); // Lock the pointer to this element
+            event.target.style.zIndex = "1000"; // Bring to the front
+        });
+
+        phrase.addEventListener("pointermove", (event) => {
+            if (draggedElement) {
+                draggedElement.style.position = "absolute";
+                draggedElement.style.left = `${event.pageX - draggedElement.offsetWidth / 2}px`;
+                draggedElement.style.top = `${event.pageY - draggedElement.offsetHeight / 2}px`;
             }
-        }
+        });
+
+        phrase.addEventListener("pointerup", (event) => {
+            if (draggedElement) {
+                draggedElement.style.position = "";
+                draggedElement.style.zIndex = "";
+                const dropzone = document.elementFromPoint(event.clientX, event.clientY);
+
+                if (dropzone && dropzone.classList.contains("dropzone")) {
+                    handleDrop(draggedElement, dropzone);
+                } else {
+                    draggedElement.classList.remove("hidden");
+                }
+                draggedElement = null;
+            }
+        });
+    });
+}
+
+function handleDrop(phrase, dropzone) {
+    const correctPhraseId = dropzone.getAttribute("data-correct");
+    if (phrase.id === correctPhraseId) {
+        // Correct drop
+        const textNode = document.createElement("p");
+        textNode.textContent = phrase.textContent;
+        dropzone.appendChild(textNode);
+        dropzone.querySelector(".tick").style.display = "inline";
+        dropzone.querySelector(".cross").style.display = "none";
+        phrase.style.display = "none";
+        document.getElementById("correct-sound").play();
+        checkCompletion();
+    } else {
+        // Incorrect drop
+        dropzone.querySelector(".cross").style.display = "inline";
+        dropzone.querySelector(".tick").style.display = "none";
+        document.getElementById("incorrect-sound").play();
+        phrase.classList.remove("hidden");
     }
-    function checkCompletion() {
+}
+
+function checkCompletion() {
     const currentPage = document.querySelector(".quiz-container:not(.hidden)");
     const dropzones = Array.from(currentPage.querySelectorAll(".dropzone"));
     const allMatched = dropzones.every((zone) => zone.querySelector("p"));
+
     if (allMatched) {
         const nextPage = currentPage.nextElementSibling;
         if (nextPage && nextPage.classList.contains("quiz-container")) {
@@ -280,13 +306,22 @@
         } else {
             document.getElementById("quiz-heading").classList.add("hidden");
             document.getElementById("completion").classList.remove("hidden");
-            document.getElementById("applause-sound").play(); // Play applause sound
-
+            document.getElementById("applause-sound").play();
         }
     }
 }
 
-    function restartActivity() {
+function updateFooter() {
+    const totalPages = document.querySelectorAll(".quiz-container").length - 1; // Exclude completion page
+    const currentPageIndex = Array.from(document.querySelectorAll(".quiz-container")).findIndex(
+        (page) => !page.classList.contains("hidden")
+    );
+    const percentage = Math.round(((currentPageIndex + 1) / totalPages) * 100);
+    const footer = document.querySelector(".footer");
+    if (footer) footer.textContent = `${percentage}% complete`;
+}
+
+function restartActivity() {
     document.querySelectorAll(".quiz-container").forEach((page, index) => {
         page.classList.toggle("hidden", index !== 0);
     });
@@ -305,10 +340,10 @@
     });
 
     updateFooter(); // Reset progress to initial state
-    updateFooter();
- 
 }
 
-</script>
-</body>
-</html>
+// Initialize drag-and-drop
+document.addEventListener("DOMContentLoaded", () => {
+    enableDragAndDrop();
+    updateFooter();
+});
