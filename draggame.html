@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Drag and Drop Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #FCF3C9;
+        }
+        .quiz-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        .column {
+            width: 45%;
+        }
+        .phrase {
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            background-color: #9ab8fe;
+            text-align: center;
+            cursor: pointer;
+            color: #fff;
+            border-radius: 25px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+        .phrase:hover {
+            transform: scale(1.05);
+        }
+        .dropzone {
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            background-color: #e9e9e9;
+            height: auto;
+            position: relative;
+            border-radius: 25px;
+            min-height: 50px;
+            transition: background-color 0.3s;
+        }
+        .dropzone:hover {
+            background-color: #d4d4d4;
+        }
+        .tick, .cross {
+            position: absolute;
+            right: 10px;
+            top: 5px;
+            font-size: 24px;
+            display: none;
+        }
+        .tick {
+            color: green;
+        }
+        .cross {
+            color: red;
+        }
+        h3 {
+            color: #9ab8fe;
+        }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <div class="column">
+        <h3>Drag these phrases:</h3>
+        <div class="phrase" draggable="true" ondragstart="drag(event)" id="phrase1">Hello</div>
+        <div class="phrase" draggable="true" ondragstart="drag(event)" id="phrase2">Hello, how are you?</div>
+        <div class="phrase" draggable="true" ondragstart="drag(event)" id="phrase3">Alright</div>
+        <div class="phrase" draggable="true" ondragstart="drag(event)" id="phrase4">How’s it going?</div>
+        <div class="phrase" draggable="true" ondragstart="drag(event)" id="phrase5">Good morning</div>
+        <div class="phrase" draggable="true" ondragstart="drag(event)" id="phrase6">Good afternoon</div>
+        <div class="phrase" draggable="true" ondragstart="drag(event)" id="phrase7">Good evening</div>
+        <div class="phrase" draggable="true" ondragstart="drag(event)" id="phrase8">Good night</div>
+        <div class="phrase" draggable="true" ondragstart="drag(event)" id="phrase9">Please</div>
+        <div class="phrase" draggable="true" ondragstart="drag(event)" id="phrase10">I’m sorry</div>
+    </div>
+
+    <div class="column">
+        <h3>Drop them here:</h3>
+        <div class="dropzone" ondrop="drop(event)" ondragover="allowDrop(event)" data-correct="phrase5">
+            <p>Arriving at a meeting scheduled for 9 AM</p>
+            <span class="tick">&#10004;</span>
+            <span class="cross">&#10006;</span>
+        </div>
+        <div class="dropzone" ondrop="drop(event)" ondragover="allowDrop(event)" data-correct="phrase8">
+            <p>Leaving a friend’s house at night</p>
+            <span class="tick">&#10004;</span>
+            <span class="cross">&#10006;</span>
+        </div>
+        <div class="dropzone" ondrop="drop(event)" ondragover="allowDrop(event)" data-correct="phrase4">
+            <p>Meeting a friend casually in the afternoon</p>
+            <span class="tick">&#10004;</span>
+            <span class="cross">&#10006;</span>
+        </div>
+        <div class="dropzone" ondrop="drop(event)" ondragover="allowDrop(event)" data-correct="phrase1">
+            <p>Answering the phone informally</p>
+            <span class="tick">&#10004;</span>
+            <span class="cross">&#10006;</span>
+        </div>
+        <div class="dropzone" ondrop="drop(event)" ondragover="allowDrop(event)" data-correct="phrase3">
+            <p>Greeting someone in a casual setting</p>
+            <span class="tick">&#10004;</span>
+            <span class="cross">&#10006;</span>
+        </div>
+        <div class="dropzone" ondrop="drop(event)" ondragover="allowDrop(event)" data-correct="phrase6">
+            <p>Greeting a colleague after lunch</p>
+            <span class="tick">&#10004;</span>
+            <span class="cross">&#10006;</span>
+        </div>
+        <div class="dropzone" ondrop="drop(event)" ondragover="allowDrop(event)" data-correct="phrase2">
+            <p>Greeting someone formally and asking about their well-being</p>
+            <span class="tick">&#10004;</span>
+            <span class="cross">&#10006;</span>
+        </div>
+        <div class="dropzone" ondrop="drop(event)" ondragover="allowDrop(event)" data-correct="phrase7">
+            <p>Entering a formal evening event</p>
+            <span class="tick">&#10004;</span>
+            <span class="cross">&#10006;</span>
+        </div>
+        <div class="dropzone" ondrop="drop(event)" ondragover="allowDrop(event)" data-correct="phrase9">
+            <p>Asking for assistance in a store</p>
+            <span class="tick">&#10004;</span>
+            <span class="cross">&#10006;</span>
+        </div>
+        <div class="dropzone" ondrop="drop(event)" ondragover="allowDrop(event)" data-correct="phrase10">
+            <p>Apologizing for being late</p>
+            <span class="tick">&#10004;</span>
+            <span class="cross">&#10006;</span>
+        </div>
+    </div>
+</div>
+
+<audio id="correctSound" src="correct.mp3"></audio>
+<audio id="incorrectSound" src="incorrect.mp3"></audio>
+
+<script>
+    function allowDrop(event) {
+        event.preventDefault();
+    }
+
+    function drag(event) {
+        event.dataTransfer.setData("text", event.target.id);
+    }
+
+    function drop(event) {
+        event.preventDefault();
+        var data = event.dataTransfer.getData("text");
+        var target = event.target;
+
+        if (target.classList.contains('dropzone')) {
+            var phrase = document.getElementById(data);
+            if (data === target.getAttribute('data-correct')) {
+                var textNode = document.createElement("p");
+                textNode.textContent = phrase.textContent;
+                target.appendChild(textNode);
+                document.getElementById('correctSound').play();
+                target.querySelector('.tick').style.display = 'inline';
+                phrase.style.display = 'none';
+            } else {
+                target.querySelector('.cross').style.display = 'inline';
+                document.getElementById('incorrectSound').play();
+            }
+        }
+    }
+</script>
+
+</body>
+</html>
