@@ -322,6 +322,35 @@
             drop(event);
         });
     });
+    function checkCompletion() {
+    const pages = document.querySelectorAll(".quiz-container");
+    const currentPage = Array.from(pages).findIndex((page) => !page.classList.contains("hidden"));
+    const dropzones = Array.from(pages[currentPage].querySelectorAll(".dropzone"));
+    const allMatched = dropzones.every((zone) => zone.querySelector("p"));
+
+    if (allMatched) {
+        const nextPage = pages[currentPage + 1];
+        if (nextPage && nextPage.classList.contains("quiz-container")) {
+            pages[currentPage].classList.add("hidden");
+            nextPage.classList.remove("hidden");
+            updateFooter();
+        } else {
+            // Last page, show completion
+            document.getElementById("quiz-heading").classList.add("hidden");
+            document.getElementById("completion").classList.remove("hidden");
+            document.getElementById("applause-sound").play(); // Play applause on completion
+        }
+    }
+}
+
+function updateFooter() {
+    const pages = document.querySelectorAll(".quiz-container");
+    const currentPageIndex = Array.from(pages).findIndex((page) => !page.classList.contains("hidden"));
+    const percentage = Math.floor(((currentPageIndex + 1) / pages.length) * 100);
+    const footer = document.querySelector(".footer");
+    footer.textContent = `${percentage}% complete`;
+}
+
 </script>
 
 </body>
