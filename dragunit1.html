@@ -349,6 +349,44 @@ function updateFooter() {
     const percentage = Math.floor(((currentPageIndex + 1) / pages.length) * 100);
     const footer = document.querySelector(".footer");
     footer.textContent = `${percentage}% complete`;
+    function restartActivity() {
+    const pages = document.querySelectorAll(".quiz-container");
+    const phrases = document.querySelectorAll(".phrase");
+    const dropzones = document.querySelectorAll(".dropzone");
+
+    // Reset all pages except the first one
+    pages.forEach((page, index) => {
+        if (index === 0) {
+            page.classList.remove("hidden");
+        } else {
+            page.classList.add("hidden");
+        }
+    });
+
+    // Reset all phrases to visible and re-enable them
+    phrases.forEach((phrase) => {
+        phrase.style.display = "block";
+        phrase.classList.remove("hidden");
+    });
+
+    // Clear all dropzones
+    dropzones.forEach((zone) => {
+        const insertedText = zone.querySelector("p");
+        if (insertedText) insertedText.remove();
+        zone.querySelector(".tick").style.display = "none";
+        zone.querySelector(".cross").style.display = "none";
+    });
+
+    // Reset footer
+    updateFooter();
+
+    // Reset heading visibility
+    document.getElementById("quiz-heading").classList.remove("hidden");
+
+    // Hide completion page
+    document.getElementById("completion").classList.add("hidden");
+}
+
 }
 
 </script>
