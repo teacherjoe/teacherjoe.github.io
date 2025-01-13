@@ -232,22 +232,30 @@
 <audio id="correct-sound" src="correct.mp3"></audio>
 <audio id="incorrect-sound" src="incorrect.mp3"></audio>
 <script>
+    let currentDraggedElement = null; // Tracks the element being dragged
+
     function allowDrop(event) {
         event.preventDefault();
     }
+
     function drag(event) {
-        event.dataTransfer.setData("text", event.target.id);
+        currentDraggedElement = event.target;
+        event.dataTransfer?.setData("text", event.target.id); // For desktop drag-and-drop
         setTimeout(() => {
             event.target.classList.add("hidden");
         }, 0);
     }
+
     function endDrag(event) {
+        currentDraggedElement = null;
         event.target.classList.remove("hidden");
     }
+
     function drop(event) {
         event.preventDefault();
-        const data = event.dataTransfer.getData("text");
+        const data = event.dataTransfer?.getData("text") || currentDraggedElement?.id; // Handle both desktop and touch
         const target = event.target;
+
         if (target.classList.contains("dropzone")) {
             const phrase = document.getElementById(data);
             if (data === target.getAttribute("data-correct")) {
@@ -267,49 +275,56 @@
             }
         }
     }
-    function checkCompletion() {
-    const currentPage = document.querySelector(".quiz-container:not(.hidden)");
-    const dropzones = Array.from(currentPage.querySelectorAll(".dropzone"));
-    const allMatched = dropzones.every((zone) => zone.querySelector("p"));
-    if (allMatched) {
-        const nextPage = currentPage.nextElementSibling;
-        if (nextPage && nextPage.classList.contains("quiz-container")) {
-            currentPage.classList.add("hidden");
-            nextPage.classList.remove("hidden");
-            updateFooter(); // Update footer on page change
-        } else {
-            document.getElementById("quiz-heading").classList.add("hidden");
-            document.getElementById("completion").classList.remove("hidden");
-            document.getElementById("applause-sound").play(); // Play applause sound
 
-        }
+    function handleTouchStart(event) {
+        currentDraggedElement = event.target;
+        currentDraggedElement.classList.add("dragging");
     }
-}
 
-    function restartActivity() {
-    document.querySelectorAll(".quiz-container").forEach((page, index) => {
-        page.classList.toggle("hidden", index !== 0);
-    });
-    document.getElementById("completion").classList.add("hidden");
-    document.getElementById("quiz-heading").classList.remove("hidden");
+    function handleTouchMove(event) {
+        if (!currentDraggedElement) return;
 
-    // Reset phrases and dropzones
+        const touchLocation = event.touches[0];
+        currentDraggedElement.style.position = "absolute";
+        currentDraggedElement.style.left = `${touchLocation.pageX - 50}px`;
+        currentDraggedElement.style.top = `${touchLocation.pageY - 50}px`;
+    }
+
+    function handleTouchEnd(event) {
+        const dropTarget = document.elementFromPoint(
+            event.changedTouches[0].clientX,
+            event.changedTouches[0].clientY
+        );
+        if (dropTarget && dropTarget.classList.contains("dropzone")) {
+            dropTarget.dispatchEvent(new Event("drop", { bubbles: true }));
+        }
+        currentDraggedElement.style.position = "static";
+        currentDraggedElement.classList.remove("dragging");
+        currentDraggedElement = null;
+    }
+
     document.querySelectorAll(".phrase").forEach((phrase) => {
-        phrase.style.display = "block";
-        phrase.classList.remove("hidden");
-    });
-    document.querySelectorAll(".dropzone").forEach((zone) => {
-        zone.querySelector("p")?.remove();
-        zone.querySelector(".tick").style.display = "none";
-        zone.querySelector(".cross").style.display = "none";
+        phrase.addEventListener("dragstart", drag);
+        phrase.addEventListener("dragend", endDrag);
+
+        // Touch event listeners for mobile
+        phrase.addEventListener("touchstart", handleTouchStart);
+        phrase.addEventListener("touchmove", handleTouchMove);
+        phrase.addEventListener("touchend", handleTouchEnd);
     });
 
-    updateFooter(); // Reset progress to initial state
-    updateFooter();
- 
-}
+    document.querySelectorAll(".dropzone").forEach((dropzone) => {
+        dropzone.addEventListener("dragover", allowDrop);
+        dropzone.addEventListener("drop", drop);
 
+        // Allow touch compatibility for dropzones
+        dropzone.addEventListener("touchend", (event) => {
+            drop(event);
+        });
+    });
 </script>
+
 </body>
 </html>
+
 
