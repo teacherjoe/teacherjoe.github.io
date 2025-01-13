@@ -303,7 +303,12 @@
         zone.querySelector(".tick").style.display = "none";
         zone.querySelector(".cross").style.display = "none";
     });
-
+function updateFooter() {
+    const pages = document.querySelectorAll(".quiz-container");
+    const completedPages = Array.from(pages).findIndex((page) => !page.classList.contains("hidden"));
+    const percentage = Math.floor(((completedPages + 1) / pages.length) * 100);
+    const footer = document.querySelector(".footer");
+    footer.textContent = `${percentage}% complete`;
     updateFooter(); // Reset progress to initial state
     updateFooter();
  
