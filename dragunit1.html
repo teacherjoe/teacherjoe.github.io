@@ -287,6 +287,8 @@ function checkCompletion() {
         } else {
             document.getElementById("quiz-heading").classList.add("hidden");
             document.getElementById("completion").classList.remove("hidden");
+            document.getElementById("applause-sound").play();
+
 
             // Trigger applause sound
             const applauseAudio = document.getElementById("applause-sound");
