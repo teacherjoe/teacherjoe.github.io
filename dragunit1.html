@@ -225,8 +225,6 @@
         <h1>Well done, you're making progress! You will be speaking like a local in no time!</h1>
         <img src="https://teacherjoe.github.io/completion-image.jpg" alt="Well Done" class="completion-image">
         <button class="restart-button" onclick="restartActivity()">Restart Activity</button>
-        document.getElementById("applause-sound").play();
-
         <div class="footer">100% complete</div>
     </div>
 </div>
@@ -274,33 +272,34 @@
         }
     }
 
-    function checkCompletion() {
-        const pages = document.querySelectorAll(".quiz-container");
-        const currentPage = Array.from(pages).findIndex((page) => !page.classList.contains("hidden"));
-        const dropzones = Array.from(pages[currentPage].querySelectorAll(".dropzone"));
-        const allMatched = dropzones.every((zone) => zone.querySelector("p"));
+function checkCompletion() {
+    const pages = document.querySelectorAll(".quiz-container");
+    const currentPage = Array.from(pages).findIndex((page) => !page.classList.contains("hidden"));
+    const dropzones = Array.from(pages[currentPage].querySelectorAll(".dropzone"));
+    const allMatched = dropzones.every((zone) => zone.querySelector("p"));
 
-        if (allMatched) {
-            const nextPage = pages[currentPage + 1];
-            if (nextPage && nextPage.classList.contains("quiz-container")) {
-                pages[currentPage].classList.add("hidden");
-                nextPage.classList.remove("hidden");
-                updateFooter();
-            } else {
-                document.getElementById("quiz-heading").classList.add("hidden");
-                document.getElementById("completion").classList.remove("hidden");
-                document.getElementById("applause-sound").play();
-              if (document.getElementById("applause-sound")) {
-    const applauseAudio = document.getElementById("applause-sound");
-    applauseAudio.currentTime = 0; // Restart the audio if already playing
-    applauseAudio.play().catch((error) => {
-        console.error("Audio playback error:", error);
-    });
-}
+    if (allMatched) {
+        const nextPage = pages[currentPage + 1];
+        if (nextPage && nextPage.classList.contains("quiz-container")) {
+            pages[currentPage].classList.add("hidden");
+            nextPage.classList.remove("hidden");
+            updateFooter();
+        } else {
+            document.getElementById("quiz-heading").classList.add("hidden");
+            document.getElementById("completion").classList.remove("hidden");
 
+            // Trigger applause sound
+            const applauseAudio = document.getElementById("applause-sound");
+            if (applauseAudio) {
+                applauseAudio.currentTime = 0; // Restart audio
+                applauseAudio.play().catch((error) => {
+                    console.error("Error playing applause sound:", error);
+                });
             }
         }
     }
+}
+
 
     function updateFooter() {
         const pages = document.querySelectorAll(".quiz-container");
