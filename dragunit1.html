@@ -238,101 +238,155 @@
 <audio id="correct-sound" src="correct.mp3"></audio>
 <audio id="incorrect-sound" src="incorrect.mp3"></audio>
 <script>
-        const phrases = document.querySelectorAll('.phrase');
-        const dropzones = document.querySelectorAll('.dropzone');
-        const restartBtn = document.getElementById('restart-btn');
+        document.addEventListener('DOMContentLoaded', () => {
+    const phrases = document.querySelectorAll('.phrase');
+    const dropzones = document.querySelectorAll('.dropzone');
+    const restartBtn = document.getElementById('restart-btn');
+    let activeElement = null;
+    let touchOffsetX = 0;
+    let touchOffsetY = 0;
+
+    // Add drag-and-drop listeners
+    phrases.forEach(phrase => {
+        phrase.addEventListener('dragstart', drag);
+        phrase.addEventListener('dragend', endDrag);
+    });
+
+    dropzones.forEach(zone => {
+        zone.addEventListener('dragover', allowDrop);
+        zone.addEventListener('drop', drop);
+    });
+
+    // Add touch listeners
+    phrases.forEach(phrase => {
+        phrase.addEventListener('touchstart', handleTouchStart);
+        phrase.addEventListener('touchmove', handleTouchMove);
+        phrase.addEventListener('touchend', handleTouchEnd);
+    });
+
+    restartBtn.addEventListener('click', restartActivity);
+
+    // Drag-and-drop logic
+    function allowDrop(event) {
+        event.preventDefault();
+    }
+
+    function drag(event) {
+        event.dataTransfer.setData("text", event.target.id);
+        setTimeout(() => {
+            event.target.classList.add("hidden");
+        }, 0);
+    }
+
+    function endDrag(event) {
+        event.target.classList.remove("hidden");
+    }
+
+    function drop(event) {
+        event.preventDefault();
+        const data = event.dataTransfer.getData("text");
+        const target = event.target;
+
+        if (target.classList.contains("dropzone")) {
+            const phrase = document.getElementById(data);
+            if (data === target.getAttribute("data-correct")) {
+                const textNode = document.createElement("p");
+                textNode.textContent = phrase.textContent;
+                target.appendChild(textNode);
+                target.querySelector(".tick").style.display = "inline";
+                target.querySelector(".cross").style.display = "none";
+                phrase.style.display = "none";
+                document.getElementById("correct-sound").play();
+                checkCompletion();
+            } else {
+                target.querySelector(".cross").style.display = "inline";
+                target.querySelector(".tick").style.display = "none";
+                document.getElementById("incorrect-sound").play();
+                phrase.classList.remove("hidden");
+            }
+        }
+    }
+
+    // Touch-based logic
+    function handleTouchStart(event) {
+        activeElement = event.target;
+        const rect = activeElement.getBoundingClientRect();
+        touchOffsetX = event.touches[0].clientX - rect.left;
+        touchOffsetY = event.touches[0].clientY - rect.top;
+        activeElement.style.position = 'absolute';
+        activeElement.style.zIndex = 1000;
+    }
+
+    function handleTouchMove(event) {
+        if (!activeElement) return;
+        const x = event.touches[0].clientX - touchOffsetX;
+        const y = event.touches[0].clientY - touchOffsetY;
+        activeElement.style.left = `${x}px`;
+        activeElement.style.top = `${y}px`;
+    }
+
+    function handleTouchEnd(event) {
+        if (!activeElement) return;
+        const dropTarget = document.elementFromPoint(
+            event.changedTouches[0].clientX,
+            event.changedTouches[0].clientY
+        );
+        if (dropTarget && dropTarget.classList.contains('dropzone')) {
+            const correctId = dropTarget.getAttribute('data-correct');
+            if (correctId === activeElement.id) {
+                dropTarget.appendChild(activeElement.cloneNode(true));
+                dropTarget.querySelector('.tick').style.display = 'inline';
+                document.getElementById('correct-sound').play();
+            } else {
+                dropTarget.querySelector('.cross').style.display = 'inline';
+                document.getElementById('incorrect-sound').play();
+            }
+        }
+        activeElement.style.position = '';
+        activeElement.style.zIndex = '';
+        activeElement = null;
+    }
+
+    function checkCompletion() {
+        const pages = document.querySelectorAll(".quiz-container");
+        const currentPageIndex = Array.from(pages).findIndex(page => !page.classList.contains("hidden"));
+        const currentPage = pages[currentPageIndex];
+        const dropzones = currentPage.querySelectorAll(".dropzone");
+        const allMatched = Array.from(dropzones).every(zone => zone.querySelector("p"));
+
+        if (allMatched) {
+            if (currentPageIndex < pages.length - 2) {
+                currentPage.classList.add("hidden");
+                pages[currentPageIndex + 1].classList.remove("hidden");
+            } else {
+                currentPage.classList.add("hidden");
+                document.getElementById("completion").classList.remove("hidden");
+                document.getElementById("quiz-heading").classList.add("hidden");
+
+                const applauseAudio = document.getElementById("applause-sound");
+                applauseAudio.currentTime = 0;
+                applauseAudio.play().catch(err => console.error("Audio playback error:", err));
+            }
+        }
+    }
+
+    function restartActivity() {
+        document.getElementById("quiz-heading").classList.remove("hidden");
+        document.getElementById("completion").classList.add("hidden");
+        document.getElementById("page1").classList.remove("hidden");
 
         phrases.forEach(phrase => {
-            phrase.addEventListener('dragstart', drag);
-            phrase.addEventListener('dragend', endDrag);
+            phrase.style.display = "block";
+            phrase.classList.remove("hidden");
         });
 
         dropzones.forEach(zone => {
-            zone.addEventListener('dragover', allowDrop);
-            zone.addEventListener('drop', drop);
+            zone.querySelector("p")?.remove();
+            zone.querySelector(".tick").style.display = "none";
+            zone.querySelector(".cross").style.display = "none";
         });
-
-        restartBtn.addEventListener('click', restartActivity);
-
-        function allowDrop(event) {
-            event.preventDefault();
-        }
-
-        function drag(event) {
-            event.dataTransfer.setData("text", event.target.id);
-            setTimeout(() => {
-                event.target.classList.add("hidden");
-            }, 0);
-        }
-
-        function endDrag(event) {
-            event.target.classList.remove("hidden");
-        }
-
-        function drop(event) {
-            event.preventDefault();
-            const data = event.dataTransfer.getData("text");
-            const target = event.target;
-
-            if (target.classList.contains("dropzone")) {
-                const phrase = document.getElementById(data);
-                if (data === target.getAttribute("data-correct")) {
-                    const textNode = document.createElement("p");
-                    textNode.textContent = phrase.textContent;
-                    target.appendChild(textNode);
-                    target.querySelector(".tick").style.display = "inline";
-                    target.querySelector(".cross").style.display = "none";
-                    phrase.style.display = "none";
-                    document.getElementById("correct-sound").play();
-                    checkCompletion();
-                } else {
-                    target.querySelector(".cross").style.display = "inline";
-                    target.querySelector(".tick").style.display = "none";
-                    document.getElementById("incorrect-sound").play();
-                    phrase.classList.remove("hidden");
-                }
-            }
-        }
-
-        function checkCompletion() {
-            const pages = document.querySelectorAll(".quiz-container");
-            const currentPageIndex = Array.from(pages).findIndex(page => !page.classList.contains("hidden"));
-            const currentPage = pages[currentPageIndex];
-            const dropzones = currentPage.querySelectorAll(".dropzone");
-            const allMatched = Array.from(dropzones).every(zone => zone.querySelector("p"));
-
-            if (allMatched) {
-                if (currentPageIndex < pages.length - 2) {
-                    currentPage.classList.add("hidden");
-                    pages[currentPageIndex + 1].classList.remove("hidden");
-                } else {
-                    currentPage.classList.add("hidden");
-                    document.getElementById("completion").classList.remove("hidden");
-                    document.getElementById("quiz-heading").classList.add("hidden");
-
-                    const applauseAudio = document.getElementById("applause-sound");
-                    applauseAudio.currentTime = 0;
-                    applauseAudio.play().catch(err => console.error("Audio playback error:", err));
-                }
-            }
-        }
-
-        function restartActivity() {
-            document.getElementById("quiz-heading").classList.remove("hidden");
-            document.getElementById("completion").classList.add("hidden");
-            document.getElementById("page1").classList.remove("hidden");
-
-            phrases.forEach(phrase => {
-                phrase.style.display = "block";
-                phrase.classList.remove("hidden");
-            });
-
-            dropzones.forEach(zone => {
-                zone.querySelector("p")?.remove();
-                zone.querySelector(".tick").style.display = "none";
-                zone.querySelector(".cross").style.display = "none";
-            });
-        }
+    }
+});
 </script>
 </body>
 </html>
