@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practice Page</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+            border-left: 6px solid #9ab8fe; /* Blue border */
+        }
+
+        h1 {
+            font-size: 36px;
+            color: #4a4a4a;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        h1:after {
+            content: "";
+            display: block;
+            width: 60px;
+            height: 4px;
+            background-color: #9ab8fe; /* Blue line */
+            margin: 10px auto 0;
+        }
+
+        h2 {
+            font-size: 24px;
+            color: #333;
+            margin: 20px 0 10px;
+            text-align: left;
+            position: relative;
+        }
+
+        h2:after {
+            content: "";
+            display: block;
+            width: 40px;
+            height: 2px;
+            background-color: #9ab8fe; /* Blue line */
+            margin: 5px 0 10px;
+        }
+
+        p {
+            font-size: 18px;
+            color: #555;
+            margin: 10px 0;
+        }
+
+        ul {
+            padding-left: 0;
+            margin: 20px 0;
+            list-style-type: none;
+        }
+
+        li {
+            font-size: 18px;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        strong {
+            color: #9ab8fe;
+        }
+
+        .listen-button {
+            flex-shrink: 0;
+            width: 120px;
+            height: 40px;
+            padding: 0;
+            font-size: 16px;
+            color: #ffffff;
+            background-color: #9ab8fe;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            background: linear-gradient(to right, #9ab8fe 0%, #9ab8fe 100%);
+        }
+
+        .listen-button:hover {
+            background-color: #7a9ce3;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <h1>Practice Saying These Out Loud!</h1>
+
+        <p>You can click the audio button under each greeting and phrase to hear me speaking! Listen and practice saying them out aloud to become confident and comfortable using them!</p>
+
+        <h2>Common Greetings</h2>
+
+        <ul>
+            <li>“Good morning” – Use before noon.<button class="listen-button" onclick="playAudio('good-morning')">Listen ▶️</button></li>
+            <li>“Good afternoon” – Use after 12 PM until around 5 PM.<button class="listen-button" onclick="playAudio('good-afternoon')">Listen ▶️</button></li>
+            <li>“Good evening” – Use after 5 PM, typically until bedtime.<button class="listen-button" onclick="playAudio('good-evening')">Listen ▶️</button></li>
+            <li>“Good night” – Used as a farewell, not a greeting.<button class="listen-button" onclick="playAudio('good-night')">Listen ▶️</button></li>
+            <li>“Hello” – Appropriate any time of day, a versatile greeting.<button class="listen-button" onclick="playAudio('hello')">Listen ▶️</button></li>
+            <li>“Hi” – A casual, friendly way to greet someone.<button class="listen-button" onclick="playAudio('hi')">Listen ▶️</button></li>
+            <li>“Alright?” – Common in informal settings, often means "How are you?"<button class="listen-button" onclick="playAudio('alright')">Listen ▶️</button></li>
+            <li>“How's it going?” – An informal way of saying "How are you?" asking for an update on the other person's life.<button class="listen-button" onclick="playAudio('hows-it-going')">Listen ▶️</button></li>
+        </ul>
+
+        <h2>Polite Phrases</h2>
+
+        <ul>
+            <li>“Please” – Always include this when making a request.<button class="listen-button" onclick="playAudio('please')">Listen ▶️</button></li>
+            <li>“Thank you” – Essential for expressing gratitude.<button class="listen-button" onclick="playAudio('thank-you')">Listen ▶️</button></li>
+            <li>“Excuse me” – Use to politely get someone’s attention or to navigate through a crowd.<button class="listen-button" onclick="playAudio('excuse-me')">Listen ▶️</button></li>
+            <li>“I’m sorry” – Say this when you make a mistake or need to apologize.<button class="listen-button" onclick="playAudio('im-sorry')">Listen ▶️</button></li>
+        </ul>
+
+        <h2>Example Scenarios</h2>
+
+        <ul>
+            <li><strong>Greeting a Lecturer:</strong> “Good morning, Professor. How are you?”<button class="listen-button" onclick="playAudio('greeting-lecturer')">Listen ▶️</button></li>
+            <li><strong>Meeting a Friend:</strong> “Hi! How’s it going?”<button class="listen-button" onclick="playAudio('meeting-friend')">Listen ▶️</button></li>
+            <li><strong>Asking for Help in a Store:</strong> “Excuse me, could you help me find this item, please?”<button class="listen-button" onclick="playAudio('help-store')">Listen ▶️</button></li>
+        </ul>
+
+        <h2>Practice Makes Perfect</h2>
+
+        <p>Try using these phrases in your daily interactions. Whether you're speaking to a professor, a shop assistant, or a new friend, these greetings and polite expressions will help you communicate effectively and courteously.</p>
+
+        <p><strong>Remember, in British culture, a little politeness goes a long way!</strong></p>
+    </div>
+
+    <script>
+        function playAudio(id) {
+            const audio = new Audio(`audio/${id}.mp3`);
+            const button = document.querySelector(`button[onclick="playAudio('${id}')"]`);
+
+            audio.addEventListener("timeupdate", () => {
+                const progress = (audio.currentTime / audio.duration) * 100;
+                button.style.background = `linear-gradient(to right, #7a9ce3 ${progress}%, #9ab8fe ${progress}%)`;
+            });
+
+            audio.addEventListener("ended", () => {
+                button.style.background = "#9ab8fe"; // Reset to original color
+            });
+
+            audio.play();
+        }
+    </script>
+</body>
+</html>
