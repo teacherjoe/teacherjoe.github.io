@@ -80,7 +80,7 @@
             background-color: #7a98dc;
         }
         .completion-image {
-            width: 300px;
+            width: 150px;
             margin: 20px auto;
         }
         .instructions {
@@ -94,13 +94,11 @@
         }
     </style>
 </head>
-    <script
-  src="https://drag-drop-touch-js.github.io/dragdroptouch/dist/drag-drop-touch.esm.min.js"
-  type="module"
-></script>
+    <script src="https://drag-drop-touch-js.github.io/dragdroptouch/dist/drag-drop-touch.esm.min.js" type="module"></script>
 <body>
 <div class="container">
     <h1 id="quiz-heading">Match each scenario with the most appropriate phrase. Pay attention to the time of day and the formality of the situation!</h1>
+    
 
     <!-- Page 1 -->
     <div id="page1" class="quiz-container">
@@ -227,11 +225,10 @@
 
     <!-- Completion Page -->
     <div id="completion" class="quiz-container hidden">
+        <div class="footer">100% complete! Congratulations!</div>
         <h1>Well done, you're making progress! You will be speaking like a local in no time!</h1>
         <img src="https://teacherjoe.github.io/completion-image.jpg" alt="Well Done" class="completion-image">
         <button class="restart-button" id="restart-btn">Restart Activity</button>
-                        <div class="footer">100% complete! Congratulations!</div>
-
     </div>
 </div>
 <audio id="applause-sound" src="applause.mp3"></audio>
@@ -239,9 +236,83 @@
 <audio id="incorrect-sound" src="incorrect.mp3"></audio>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        console.log(window.DragDropTouch ? "DragDropTouch is loaded and running" : "DragDropTouch is not loaded");
-
         const phrases = document.querySelectorAll('.phrase');
+        const dropzones = document.querySelectorAll('.dropzone');
+        const restartBtn = document.getElementById('restart-btn');
+        let activePhrase = null;
+        let touchOffsetX = 0;
+        let touchOffsetY = 0;
+
+        // Add touch event listeners
+        phrases.forEach(phrase => {
+            phrase.addEventListener('touchstart', handleTouchStart);
+            phrase.addEventListener('touchmove', handleTouchMove);
+            phrase.addEventListener('touchend', handleTouchEnd);
+        });
+
+        function handleTouchStart(event) {
+            activePhrase = event.target;
+            const rect = activePhrase.getBoundingClientRect();
+            touchOffsetX = event.touches[0].clientX - rect.left;
+            touchOffsetY = event.touches[0].clientY - rect.top;
+            activePhrase.style.position = 'absolute';
+            activePhrase.style.zIndex = 1000;
+            activePhrase.style.pointerEvents = 'none';
+        }
+
+        function handleTouchMove(event) {
+            if (!activePhrase) return;
+            const x = event.touches[0].clientX - touchOffsetX;
+            const y = event.touches[0].clientY - touchOffsetY;
+            activePhrase.style.left = `${x}px`;
+            activePhrase.style.top = `${y}px`;
+        }
+
+        function handleTouchEnd(event) {
+            if (!activePhrase) return;
+
+            const dropTarget = document.elementFromPoint(
+                event.changedTouches[0].clientX,
+                event.changedTouches[0].clientY
+            );
+
+            if (dropTarget && dropTarget.classList.contains('dropzone')) {
+                const dataCorrect = dropTarget.getAttribute('data-correct');
+                if (activePhrase.id === dataCorrect) {
+                    dropTarget.appendChild(activePhrase.cloneNode(true));
+                    dropTarget.querySelector('.tick').style.display = 'inline';
+                    activePhrase.style.display = 'none';
+                    document.getElementById('correct-sound').play();
+                } else {
+                    dropTarget.querySelector('.cross').style.display = 'inline';
+                    document.getElementById('incorrect-sound').play();
+                }
+            }
+
+            resetPhrase(activePhrase);
+            activePhrase = null;
+        }
+
+        function resetPhrase(phrase) {
+            if (!phrase) return;
+            phrase.style.position = '';
+            phrase.style.zIndex = '';
+            phrase.style.left = '';
+            phrase.style.top = '';
+            phrase.style.pointerEvents = '';
+        }
+
+        phrases.forEach(phrase => {
+            phrase.addEventListener('dragstart', drag);
+            phrase.addEventListener('dragend', endDrag);
+        });
+
+        dropzones.forEach(zone => {
+            zone.addEventListener('dragover', allowDrop);
+            zone.addEventListener('drop', drop);
+        });
+
+        restartBtn.addEventListener('click', restartActivity);
         const dropzones = document.querySelectorAll('.dropzone');
         const restartBtn = document.getElementById('restart-btn');
 
@@ -311,7 +382,7 @@
                 } else {
                     currentPage.classList.add("hidden");
                     document.getElementById("completion").classList.remove("hidden");
-                    document.getElementById("quiz-heading").classList.add("hidden");
+                document.getElementById("quiz-heading").classList.add("hidden");
                     const applauseAudio = document.getElementById("applause-sound");
                     applauseAudio.currentTime = 0;
                     applauseAudio.play().catch(err => console.error("Audio playback error:", err));
@@ -335,7 +406,6 @@
                 zone.querySelector(".cross").style.display = "none";
             });
         }
-    });
-</script>
+    </script>
 </body>
 </html>
