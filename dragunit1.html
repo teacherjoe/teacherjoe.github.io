@@ -273,30 +273,26 @@
     }
 
     function checkCompletion() {
-    const pages = document.querySelectorAll(".quiz-container");
-    const currentPage = Array.from(pages).findIndex((page) => !page.classList.contains("hidden"));
-    const dropzones = Array.from(pages[currentPage].querySelectorAll(".dropzone"));
-    const allMatched = dropzones.every((zone) => zone.querySelector("p"));
+        const pages = document.querySelectorAll(".quiz-container");
+        const currentPage = Array.from(pages).findIndex((page) => !page.classList.contains("hidden"));
+        const dropzones = Array.from(pages[currentPage].querySelectorAll(".dropzone"));
+        const allMatched = dropzones.every((zone) => zone.querySelector("p"));
 
-    if (allMatched) {
-        const nextPage = pages[currentPage + 1];
-        if (nextPage && nextPage.classList.contains("quiz-container")) {
-            pages[currentPage].classList.add("hidden");
-            nextPage.classList.remove("hidden");
-            updateFooter();
-        } else {
-            document.getElementById("quiz-heading").classList.add("hidden");
-            document.getElementById("completion").classList.remove("hidden");
-
-            // Debugging log
-            console.log("Playing applause sound...");
-            const applauseAudio = document.getElementById("applause-sound");
-            applauseAudio.currentTime = 0; // Reset audio to start
-            applauseAudio.play().catch((error) => console.error("Error playing applause:", error));
-        }
-    }
-}
-
+        if (allMatched) {
+            const nextPage = pages[currentPage + 1];
+            if (nextPage && nextPage.classList.contains("quiz-container")) {
+                pages[currentPage].classList.add("hidden");
+                nextPage.classList.remove("hidden");
+                updateFooter();
+            } else {
+                document.getElementById("quiz-heading").classList.add("hidden");
+                document.getElementById("completion").classList.remove("hidden");
+                document.getElementById("applause-sound").play();
+              if (document.getElementById("applause-sound")) {
+    const applauseAudio = document.getElementById("applause-sound");
+    applauseAudio.currentTime = 0; // Restart the audio if already playing
+    applauseAudio.play().catch((error) => {
+        console.error("Audio playback error:", error);
     });
 }
 
@@ -336,5 +332,6 @@
 </script>
 </body>
 </html>
+
 
 
