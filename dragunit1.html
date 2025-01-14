@@ -224,7 +224,7 @@
     <div id="completion" class="quiz-container hidden">
         <h1>Well done, you're making progress! You will be speaking like a local in no time!</h1>
         <img src="https://teacherjoe.github.io/completion-image.jpg" alt="Well Done" class="completion-image">
-<button class="restart-button" onclick="restartActivity()">Restart Activity</button>
+        <button class="restart-button" onclick="restartActivity()">Restart Activity</button>
         <div class="footer">100% complete</div>
     </div>
 </div>
@@ -232,28 +232,24 @@
 <audio id="correct-sound" src="correct.mp3"></audio>
 <audio id="incorrect-sound" src="incorrect.mp3"></audio>
 <script>
-    let currentDraggedElement = null; // Tracks the element being dragged
-
     function allowDrop(event) {
         event.preventDefault();
     }
 
     function drag(event) {
-        currentDraggedElement = event.target;
-        event.dataTransfer?.setData("text", event.target.id); // For desktop drag-and-drop
+        event.dataTransfer.setData("text", event.target.id);
         setTimeout(() => {
             event.target.classList.add("hidden");
         }, 0);
     }
 
     function endDrag(event) {
-        currentDraggedElement = null;
         event.target.classList.remove("hidden");
     }
 
     function drop(event) {
         event.preventDefault();
-        const data = event.dataTransfer?.getData("text") || currentDraggedElement?.id; // Handle both desktop and touch
+        const data = event.dataTransfer.getData("text");
         const target = event.target;
 
         if (target.classList.contains("dropzone")) {
@@ -276,122 +272,56 @@
         }
     }
 
-    function handleTouchStart(event) {
-        currentDraggedElement = event.target;
-        currentDraggedElement.classList.add("dragging");
-    }
-
-    function handleTouchMove(event) {
-        if (!currentDraggedElement) return;
-
-        const touchLocation = event.touches[0];
-        currentDraggedElement.style.position = "absolute";
-        currentDraggedElement.style.left = `${touchLocation.pageX - 50}px`;
-        currentDraggedElement.style.top = `${touchLocation.pageY - 50}px`;
-    }
-
-    function handleTouchEnd(event) {
-        const dropTarget = document.elementFromPoint(
-            event.changedTouches[0].clientX,
-            event.changedTouches[0].clientY
-        );
-        if (dropTarget && dropTarget.classList.contains("dropzone")) {
-            dropTarget.dispatchEvent(new Event("drop", { bubbles: true }));
-        }
-        currentDraggedElement.style.position = "static";
-        currentDraggedElement.classList.remove("dragging");
-        currentDraggedElement = null;
-    }
-
-    document.querySelectorAll(".phrase").forEach((phrase) => {
-        phrase.addEventListener("dragstart", drag);
-        phrase.addEventListener("dragend", endDrag);
-
-        // Touch event listeners for mobile
-        phrase.addEventListener("touchstart", handleTouchStart);
-        phrase.addEventListener("touchmove", handleTouchMove);
-        phrase.addEventListener("touchend", handleTouchEnd);
-    });
-
-    document.querySelectorAll(".dropzone").forEach((dropzone) => {
-        dropzone.addEventListener("dragover", allowDrop);
-        dropzone.addEventListener("drop", drop);
-
-        // Allow touch compatibility for dropzones
-        dropzone.addEventListener("touchend", (event) => {
-            drop(event);
-        });
-    });
     function checkCompletion() {
-    const pages = document.querySelectorAll(".quiz-container");
-    const currentPage = Array.from(pages).findIndex((page) => !page.classList.contains("hidden"));
-    const dropzones = Array.from(pages[currentPage].querySelectorAll(".dropzone"));
-    const allMatched = dropzones.every((zone) => zone.querySelector("p"));
+        const pages = document.querySelectorAll(".quiz-container");
+        const currentPage = Array.from(pages).findIndex((page) => !page.classList.contains("hidden"));
+        const dropzones = Array.from(pages[currentPage].querySelectorAll(".dropzone"));
+        const allMatched = dropzones.every((zone) => zone.querySelector("p"));
 
-    if (allMatched) {
-        const nextPage = pages[currentPage + 1];
-        if (nextPage && nextPage.classList.contains("quiz-container")) {
-            pages[currentPage].classList.add("hidden");
-            nextPage.classList.remove("hidden");
-            updateFooter();
-        } else {
-            // Last page, show completion
-            document.getElementById("quiz-heading").classList.add("hidden");
-            document.getElementById("completion").classList.remove("hidden");
-            document.getElementById("applause-sound").play(); // Play applause on completion
+        if (allMatched) {
+            const nextPage = pages[currentPage + 1];
+            if (nextPage && nextPage.classList.contains("quiz-container")) {
+                pages[currentPage].classList.add("hidden");
+                nextPage.classList.remove("hidden");
+                updateFooter();
+            } else {
+                document.getElementById("quiz-heading").classList.add("hidden");
+                document.getElementById("completion").classList.remove("hidden");
+                document.getElementById("applause-sound").play();
+            }
         }
     }
-}
 
-function updateFooter() {
-    const pages = document.querySelectorAll(".quiz-container");
-    const currentPageIndex = Array.from(pages).findIndex((page) => !page.classList.contains("hidden"));
-    const percentage = Math.floor(((currentPageIndex + 1) / pages.length) * 100);
-    const footer = document.querySelector(".footer");
-    footer.textContent = `${percentage}% complete`;
+    function updateFooter() {
+        const pages = document.querySelectorAll(".quiz-container");
+        const currentPageIndex = Array.from(pages).findIndex((page) => !page.classList.contains("hidden"));
+        const percentage = Math.floor(((currentPageIndex + 1) / pages.length) * 100);
+        const footer = document.querySelector(".footer");
+        footer.textContent = `${percentage}% complete`;
+    }
 
-    
-function restartActivity() {
-    const pages = document.querySelectorAll(".quiz-container");
-    const phrases = document.querySelectorAll(".phrase");
-    const dropzones = document.querySelectorAll(".dropzone");
-    // Reset all pages except the first one
-    pages.forEach((page, index) => {
-        if (index === 0) {
-            page.classList.remove("hidden");
-        } else {
-            page.classList.add("hidden");
-        }
-    });
+    function restartActivity() {
+        const pages = document.querySelectorAll(".quiz-container");
+        pages.forEach((page, index) => {
+            page.classList.toggle("hidden", index !== 0);
+        });
+        document.getElementById("completion").classList.add("hidden");
+        document.getElementById("quiz-heading").classList.remove("hidden");
 
-    // Reset all phrases to visible and re-enable them
-    phrases.forEach((phrase) => {
-        phrase.style.display = "block";
-        phrase.classList.remove("hidden");
-    });
+        // Reset phrases and dropzones
+        document.querySelectorAll(".phrase").forEach((phrase) => {
+            phrase.style.display = "block";
+            phrase.classList.remove("hidden");
+        });
+        document.querySelectorAll(".dropzone").forEach((zone) => {
+            zone.querySelector("p")?.remove();
+            zone.querySelector(".tick").style.display = "none";
+            zone.querySelector(".cross").style.display = "none";
+        });
 
-    // Clear all dropzones
-    dropzones.forEach((zone) => {
-        const insertedText = zone.querySelector("p");
-        if (insertedText) insertedText.remove();
-        zone.querySelector(".tick").style.display = "none";
-        zone.querySelector(".cross").style.display = "none";
-    });
-
-    // Reset footer
-    updateFooter();
-
-    // Reset heading visibility
-    document.getElementById("quiz-heading").classList.remove("hidden");
-
-    // Hide completion page
-    document.getElementById("completion").classList.add("hidden");
-}
-
-}
-
+        updateFooter();
+    }
 </script>
-
 </body>
 </html>
 
