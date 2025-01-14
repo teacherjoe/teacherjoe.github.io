@@ -139,6 +139,88 @@
         <div class="footer">0% complete</div>
     </div>
 
+    <!-- Page 2 -->
+    <div id="page2" class="quiz-container hidden">
+        <div class="instructions">Drag these <span class="arrow">↓</span></div>
+        <div class="column">
+            <div class="phrase" draggable="true" id="phrase10">I’m sorry</div>
+            <div class="phrase" draggable="true" id="phrase8">Good afternoon</div>
+            <div class="phrase" draggable="true" id="phrase7">Alright</div>
+            <div class="phrase" draggable="true" id="phrase6">How’s it going?</div>
+            <div class="phrase" draggable="true" id="phrase9">Thank you</div>
+        </div>
+        <div class="instructions">Here <span class="arrow">↓</span></div>
+        <div class="column">
+            <div class="dropzone" data-correct="phrase6">
+                Asking someone how they are informally
+                <span class="tick">&#10004;</span>
+                <span class="cross">&#10006;</span>
+            </div>
+            <div class="dropzone" data-correct="phrase7">
+                Responding casually to a greeting
+                <span class="tick">&#10004;</span>
+                <span class="cross">&#10006;</span>
+            </div>
+            <div class="dropzone" data-correct="phrase8">
+                Greeting someone in the afternoon
+                <span class="tick">&#10004;</span>
+                <span class="cross">&#10006;</span>
+            </div>
+            <div class="dropzone" data-correct="phrase9">
+                Expressing gratitude
+                <span class="tick">&#10004;</span>
+                <span class="cross">&#10006;</span>
+            </div>
+            <div class="dropzone" data-correct="phrase10">
+                Apologizing for bumping into someone
+                <span class="tick">&#10004;</span>
+                <span class="cross">&#10006;</span>
+            </div>
+        </div>
+        <div class="footer">33% complete</div>
+    </div>
+
+    <!-- Page 3 -->
+    <div id="page3" class="quiz-container hidden">
+        <div class="instructions">Drag these <span class="arrow">↓</span></div>
+        <div class="column">
+            <div class="phrase" draggable="true" id="phrase13">Afternoon</div>
+            <div class="phrase" draggable="true" id="phrase15">Morning</div>
+            <div class="phrase" draggable="true" id="phrase14">Night</div>
+            <div class="phrase" draggable="true" id="phrase11">Good evening</div>
+            <div class="phrase" draggable="true" id="phrase12">Please</div>
+        </div>
+        <div class="instructions">Here <span class="arrow">↓</span></div>
+        <div class="column">
+            <div class="dropzone" data-correct="phrase11">
+                Greeting someone in the evening
+                <span class="tick">&#10004;</span>
+                <span class="cross">&#10006;</span>
+            </div>
+            <div class="dropzone" data-correct="phrase12">
+                Making a polite request
+                <span class="tick">&#10004;</span>
+                <span class="cross">&#10006;</span>
+            </div>
+            <div class="dropzone" data-correct="phrase13">
+                Mentioning the time after lunch
+                <span class="tick">&#10004;</span>
+                <span class="cross">&#10006;</span>
+            </div>
+            <div class="dropzone" data-correct="phrase14">
+                Referring to the time after sunset
+                <span class="tick">&#10004;</span>
+                <span class="cross">&#10006;</span>
+            </div>
+            <div class="dropzone" data-correct="phrase15">
+                Greeting someone early in the day
+                <span class="tick">&#10004;</span>
+                <span class="cross">&#10006;</span>
+            </div>
+        </div>
+        <div class="footer">66% complete</div>
+    </div>
+
     <!-- Completion Page -->
     <div id="completion" class="quiz-container hidden">
         <h1>Well done, you're making progress! You will be speaking like a local in no time!</h1>
@@ -208,15 +290,23 @@
         }
 
         function checkCompletion() {
-            const dropzones = document.querySelectorAll(".dropzone");
+            const pages = document.querySelectorAll(".quiz-container");
+            const currentPageIndex = Array.from(pages).findIndex(page => !page.classList.contains("hidden"));
+            const currentPage = pages[currentPageIndex];
+            const dropzones = currentPage.querySelectorAll(".dropzone");
             const allMatched = Array.from(dropzones).every(zone => zone.querySelector("p"));
 
             if (allMatched) {
-                document.getElementById("page1").classList.add("hidden");
-                document.getElementById("completion").classList.remove("hidden");
-                const applauseAudio = document.getElementById("applause-sound");
-                applauseAudio.currentTime = 0;
-                applauseAudio.play().catch(err => console.error("Audio playback error:", err));
+                if (currentPageIndex < pages.length - 2) {
+                    currentPage.classList.add("hidden");
+                    pages[currentPageIndex + 1].classList.remove("hidden");
+                } else {
+                    currentPage.classList.add("hidden");
+                    document.getElementById("completion").classList.remove("hidden");
+                    const applauseAudio = document.getElementById("applause-sound");
+                    applauseAudio.currentTime = 0;
+                    applauseAudio.play().catch(err => console.error("Audio playback error:", err));
+                }
             }
         }
 
