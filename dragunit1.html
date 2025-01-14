@@ -286,12 +286,25 @@ function checkCompletion() {
             updateFooter();
         } else {
             // Final page logic
-            document.getElementById("quiz-heading").classList.add("hidden");
-            document.getElementById("completion").classList.remove("hidden");
-            playApplause();
+            const quizHeading = document.getElementById("quiz-heading");
+            if (quizHeading) quizHeading.classList.add("hidden");
+            const completionPage = document.getElementById("completion");
+            if (completionPage) completionPage.classList.remove("hidden");
+
+            // Play applause sound
+            const applauseAudio = document.getElementById("applause-sound");
+            if (applauseAudio) {
+                applauseAudio.currentTime = 0; // Reset audio
+                applauseAudio.play().catch((error) => {
+                    console.error("Audio playback error:", error);
+                });
+            } else {
+                console.error("Applause audio element not found.");
+            }
         }
     }
 }
+
 
 function playApplause() {
     const applauseAudio = document.getElementById("applause-sound");
