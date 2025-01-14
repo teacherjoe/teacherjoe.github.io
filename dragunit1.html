@@ -316,17 +316,7 @@
         const dropzones = document.querySelectorAll('.dropzone');
         const restartBtn = document.getElementById('restart-btn');
 
-        phrases.forEach(phrase => {
-            phrase.addEventListener('dragstart', drag);
-            phrase.addEventListener('dragend', endDrag);
-        });
-
-        dropzones.forEach(zone => {
-            zone.addEventListener('dragover', allowDrop);
-            zone.addEventListener('drop', drop);
-        });
-
-        restartBtn.addEventListener('click', restartActivity);
+        }
 
         function allowDrop(event) {
             event.preventDefault();
