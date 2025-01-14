@@ -239,6 +239,8 @@
 <audio id="incorrect-sound" src="incorrect.mp3"></audio>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
+        console.log(window.DragDropTouch ? "DragDropTouch is loaded and running" : "DragDropTouch is not loaded");
+
         const phrases = document.querySelectorAll('.phrase');
         const dropzones = document.querySelectorAll('.dropzone');
         const restartBtn = document.getElementById('restart-btn');
