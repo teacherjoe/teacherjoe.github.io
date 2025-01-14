@@ -233,44 +233,44 @@
 <audio id="incorrect-sound" src="incorrect.mp3"></audio>
 <script>
     function allowDrop(event) {
-        event.preventDefault();
-    }
+    event.preventDefault();
+}
 
-    function drag(event) {
-        event.dataTransfer.setData("text", event.target.id);
-        setTimeout(() => {
-            event.target.classList.add("hidden");
-        }, 0);
-    }
+function drag(event) {
+    event.dataTransfer.setData("text", event.target.id);
+    setTimeout(() => {
+        event.target.classList.add("hidden");
+    }, 0);
+}
 
-    function endDrag(event) {
-        event.target.classList.remove("hidden");
-    }
+function endDrag(event) {
+    event.target.classList.remove("hidden");
+}
 
-    function drop(event) {
-        event.preventDefault();
-        const data = event.dataTransfer.getData("text");
-        const target = event.target;
+function drop(event) {
+    event.preventDefault();
+    const data = event.dataTransfer.getData("text");
+    const target = event.target;
 
-        if (target.classList.contains("dropzone")) {
-            const phrase = document.getElementById(data);
-            if (data === target.getAttribute("data-correct")) {
-                const textNode = document.createElement("p");
-                textNode.textContent = phrase.textContent;
-                target.appendChild(textNode);
-                target.querySelector(".tick").style.display = "inline";
-                target.querySelector(".cross").style.display = "none";
-                phrase.style.display = "none";
-                document.getElementById("correct-sound").play();
-                checkCompletion();
-            } else {
-                target.querySelector(".cross").style.display = "inline";
-                target.querySelector(".tick").style.display = "none";
-                document.getElementById("incorrect-sound").play();
-                phrase.classList.remove("hidden");
-            }
+    if (target.classList.contains("dropzone")) {
+        const phrase = document.getElementById(data);
+        if (data === target.getAttribute("data-correct")) {
+            const textNode = document.createElement("p");
+            textNode.textContent = phrase.textContent;
+            target.appendChild(textNode);
+            target.querySelector(".tick").style.display = "inline";
+            target.querySelector(".cross").style.display = "none";
+            phrase.style.display = "none";
+            document.getElementById("correct-sound").play();
+            checkCompletion();
+        } else {
+            target.querySelector(".cross").style.display = "inline";
+            target.querySelector(".tick").style.display = "none";
+            document.getElementById("incorrect-sound").play();
+            phrase.classList.remove("hidden");
         }
     }
+}
 
 function checkCompletion() {
     const pages = document.querySelectorAll(".quiz-container");
@@ -285,53 +285,53 @@ function checkCompletion() {
             nextPage.classList.remove("hidden");
             updateFooter();
         } else {
+            // Final page logic
             document.getElementById("quiz-heading").classList.add("hidden");
             document.getElementById("completion").classList.remove("hidden");
-            document.getElementById("applause-sound").play();
-
-
-            // Trigger applause sound
-            const applauseAudio = document.getElementById("applause-sound");
-            if (applauseAudio) {
-                applauseAudio.currentTime = 0; // Restart audio
-                applauseAudio.play().catch((error) => {
-                    console.error("Error playing applause sound:", error);
-                });
-            }
+            playApplause();
         }
     }
 }
 
-
-    function updateFooter() {
-        const pages = document.querySelectorAll(".quiz-container");
-        const currentPageIndex = Array.from(pages).findIndex((page) => !page.classList.contains("hidden"));
-        const percentage = Math.floor(((currentPageIndex + 1) / pages.length) * 100);
-        const footer = document.querySelector(".footer");
-        footer.textContent = `${percentage}% complete`;
+function playApplause() {
+    const applauseAudio = document.getElementById("applause-sound");
+    if (applauseAudio) {
+        applauseAudio.currentTime = 0; // Restart audio
+        applauseAudio.play().catch((error) => {
+            console.error("Audio playback error:", error);
+        });
     }
+}
 
-    function restartActivity() {
-        const pages = document.querySelectorAll(".quiz-container");
-        pages.forEach((page, index) => {
-            page.classList.toggle("hidden", index !== 0);
-        });
-        document.getElementById("completion").classList.add("hidden");
-        document.getElementById("quiz-heading").classList.remove("hidden");
+function updateFooter() {
+    const pages = document.querySelectorAll(".quiz-container");
+    const currentPageIndex = Array.from(pages).findIndex((page) => !page.classList.contains("hidden"));
+    const percentage = Math.floor(((currentPageIndex + 1) / pages.length) * 100);
+    const footer = document.querySelector(".footer");
+    footer.textContent = `${percentage}% complete`;
+}
 
-        // Reset phrases and dropzones
-        document.querySelectorAll(".phrase").forEach((phrase) => {
-            phrase.style.display = "block";
-            phrase.classList.remove("hidden");
-        });
-        document.querySelectorAll(".dropzone").forEach((zone) => {
-            zone.querySelector("p")?.remove();
-            zone.querySelector(".tick").style.display = "none";
-            zone.querySelector(".cross").style.display = "none";
-        });
+function restartActivity() {
+    const pages = document.querySelectorAll(".quiz-container");
+    pages.forEach((page, index) => {
+        page.classList.toggle("hidden", index !== 0);
+    });
+    document.getElementById("completion").classList.add("hidden");
+    document.getElementById("quiz-heading").classList.remove("hidden");
 
-        updateFooter();
-    }
+    // Reset phrases and dropzones
+    document.querySelectorAll(".phrase").forEach((phrase) => {
+        phrase.style.display = "block";
+        phrase.classList.remove("hidden");
+    });
+    document.querySelectorAll(".dropzone").forEach((zone) => {
+        zone.querySelector("p")?.remove();
+        zone.querySelector(".tick").style.display = "none";
+        zone.querySelector(".cross").style.display = "none";
+    });
+
+    updateFooter();
+}
 </script>
 </body>
 </html>
