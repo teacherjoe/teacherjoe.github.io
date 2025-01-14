@@ -149,7 +149,7 @@
 
     <script>
         function playAudio(id) {
-            const audio = new Audio(`audio/${id}.mp3`);
+            const audio = new Audio(`${id}.mp3`);
             const button = document.querySelector(`button[onclick="playAudio('${id}')"]`);
 
             audio.addEventListener("timeupdate", () => {
@@ -161,7 +161,9 @@
                 button.style.background = "#9ab8fe"; // Reset to original color
             });
 
-            audio.play();
+            audio.play().catch((error) => {
+                console.error(`Error playing audio file: ${error.message}`);
+            });
         }
     </script>
 </body>
