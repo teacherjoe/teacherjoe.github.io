@@ -74,13 +74,11 @@
             font-size: 18px;
             margin: 10px 0;
             display: flex;
-            align-items: center;
+            align-items: left;
             justify-content: space-between;
         }
 
-        strong {
-            color: #9ab8fe;
-        }
+        strong { color: #333; }
 
         .listen-button {
             flex-shrink: 0;
@@ -118,31 +116,34 @@
         <h2>Common Greetings</h2>
 
         <ul>
-            <li>“Good morning” – Use before noon.<button class="listen-button" onclick="playAudio('good-morning')">Listen ▶️</button></li>
-            <li>“Good afternoon” – Use after 12 PM until around 5 PM.<button class="listen-button" onclick="playAudio('good-afternoon')">Listen ▶️</button></li>
-            <li>“Good evening” – Use after 5 PM, typically until bedtime.<button class="listen-button" onclick="playAudio('good-evening')">Listen ▶️</button></li>
-            <li>“Good night” – Used as a farewell, not a greeting.<button class="listen-button" onclick="playAudio('good-night')">Listen ▶️</button></li>
-            <li>“Hello” – Appropriate any time of day, a versatile greeting.<button class="listen-button" onclick="playAudio('hello')">Listen ▶️</button></li>
-            <li>“Hi” – A casual, friendly way to greet someone.<button class="listen-button" onclick="playAudio('hi')">Listen ▶️</button></li>
-            <li>“Alright?” – Common in informal settings, often means "How are you?"<button class="listen-button" onclick="playAudio('alright')">Listen ▶️</button></li>
-            <li>“How's it going?” – An informal way of saying "How are you?" asking for an update on the other person's life.<button class="listen-button" onclick="playAudio('hows-it-going')">Listen ▶️</button></li>
+            <li style="display: flex; justify-content: space-between; align-items: center;"><strong>“Good morning”</strong> – Use before noon.<div style='margin-left: auto;'><button class="listen-button" onclick="playAudio('good-morning')">Listen ▶️</button></li>
+            <li style="display: flex; justify-content: space-between; align-items: center;"><strong>“Good afternoon”</strong> – Use after 12 PM until around 5 PM.<div style='margin-left: auto;'><button class="listen-button" onclick="playAudio('good-afternoon')">Listen ▶️</button></li>
+            <li style="display: flex; justify-content: space-between; align-items: center;"><strong>“Good evening”</strong> – Use after 5 PM, typically until bedtime.<div style='margin-left: auto;'><button class="listen-button" onclick="playAudio('good-evening')">Listen ▶️</button></li>
+            <li style="display: flex; justify-content: space-between; align-items: center;"><strong>“Good night”</strong> – Used as a farewell, not a greeting.<div style='margin-left: auto;'><button class="listen-button" onclick="playAudio('good-night')">Listen ▶️</button></li>
+            <li style="display: flex; justify-content: space-between; align-items: center;"><strong>“Hello”</strong> – Appropriate any time of day, a versatile greeting.<div style='margin-left: auto;'><button class="listen-button" onclick="playAudio('hello')">Listen ▶️</button></li>
+            <li style="display: flex; justify-content: space-between; align-items: center;"><strong>“Hi”</strong> – A casual, friendly way to greet someone.<div style='margin-left: auto;'><button class="listen-button" onclick="playAudio('hi')">Listen ▶️</button></li>
+            <li style="display: flex; justify-content: space-between; align-items: center;"><strong>“Alright?”</strong> – Common in informal settings, often means "How are you?"<div style='margin-left: auto;'><button class="listen-button" onclick="playAudio('alright')">Listen ▶️</button></li>
+            <li style="display: flex; justify-content: space-between; align-items: center;"><strong>“How's it going?”</strong> – An informal way of saying "How are you?" asking for an update on the other person's life.<div style='margin-left: auto;'><button class="listen-button" onclick="playAudio('hows-it-going')">Listen ▶️</button></li>
         </ul>
 
         <h2>Polite Phrases</h2>
 
         <ul>
-            <li>“Please” – Always include this when making a request.<button class="listen-button" onclick="playAudio('please')">Listen ▶️</button></li>
-            <li>“Thank you” – Essential for expressing gratitude.<button class="listen-button" onclick="playAudio('thank-you')">Listen ▶️</button></li>
-            <li>“Excuse me” – Use to politely get someone’s attention or to navigate through a crowd.<button class="listen-button" onclick="playAudio('excuse-me')">Listen ▶️</button></li>
-            <li>“I’m sorry” – Say this when you make a mistake or need to apologize.<button class="listen-button" onclick="playAudio('im-sorry')">Listen ▶️</button></li>
+            <li style="display: flex; justify-content: space-between; align-items: center;"><strong>“Please”</strong> – Always include this when making a request.<div style='margin-left: auto;'><button class="listen-button" onclick="playAudio('please')">Listen ▶️</button></li>
+            <li style="display: flex; justify-content: space-between; align-items: center;"><strong>“Thank you”</strong> – Essential for expressing gratitude.<div style='margin-left: auto;'><button class="listen-button" onclick="playAudio('thank-you')">Listen ▶️</button></li>
+            <li style="display: flex; justify-content: space-between; align-items: center;"><strong>“Excuse me”</strong> – Use to politely get someone’s attention or to navigate through a crowd.<div style='margin-left: auto;'><button class="listen-button" onclick="playAudio('excuse-me')">Listen ▶️</button></li>
+            <li style="display: flex; justify-content: space-between; align-items: center;"><strong>“I’m sorry”</strong> – Say this when you make a mistake or need to apologize.<div style='margin-left: auto;'><button class="listen-button" onclick="playAudio('im-sorry')">Listen ▶️</button></li>
         </ul>
 
         <h2>Example Scenarios</h2>
 
         <ul>
-            <li><strong>Greeting a Lecturer:</strong> “Good morning, Professor. How are you?”<button class="listen-button" onclick="playAudio('greeting-lecturer')">Listen ▶️</button></li>
-            <li><strong>Meeting a Friend:</strong> “Hi! How’s it going?”<button class="listen-button" onclick="playAudio('meeting-friend')">Listen ▶️</button></li>
-            <li><strong>Asking for Help in a Store:</strong> “Excuse me, could you help me find this item, please?”<button class="listen-button" onclick="playAudio('help-store')">Listen ▶️</button></li>
+            <li><strong>Greeting a Lecturer:</strong></li> 
+            <li>“Good morning, Professor. How are you?”<button class="listen-button" onclick="playAudio('greeting-lecturer')">Listen ▶️</button></li>
+            <li><strong>Meeting a Friend:</strong> </li>
+            <li>“Hi! How’s it going?”<button class="listen-button" onclick="playAudio('meeting-friend')">Listen ▶️</button></li>
+            <li><strong>Asking for Help in a Store:</strong></li>
+            <li>“Excuse me, could you help me find this item, please?”<button class="listen-button" onclick="playAudio('help-store')">Listen ▶️</button></li>
         </ul>
 
         <h2>Practice Makes Perfect</h2>
