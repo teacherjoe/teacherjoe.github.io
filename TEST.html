@@ -165,7 +165,7 @@
                     </button>
                 </div>
                 <span style="font-size: 0.9em; color: #555;">Use before noon.</span>
-                <p class="feedback">Your turn! Repeat out loud!</p>
+                
             </li>
             <li>
                 <div class="phrase-container">
@@ -176,7 +176,7 @@
                     </button>
                 </div>
                 <span style="font-size: 0.9em; color: #555;">Use after 12 PM until around 5 PM.</span>
-                <p class="feedback">Your turn! Repeat out loud!</p>
+                
             </li>
             <li>
                 <div class="phrase-container">
@@ -312,13 +312,18 @@
             <li>
                 <div class="phrase-container">
                     <strong>Greeting a Lecturer:</strong>
-                    <button class="listen-button" onclick="playAudio('greeting-lecturer', this)">
+                    <button class="listen-button" onclick="playScenarioWithVideo('greeting-lecturer', 'lecturer-video', this)">
                         <div class="progress-bar"></div>
                         <span>Listen ▶️</span>
                     </button>
                 </div>
                 <span style="font-size: 0.9em; color: #555;">“Good morning, Professor. How are you?”</span>
-                <p class="feedback">Your turn! Repeat out loud!</p>
+                <div id="lecturer-video" style="display: none; text-align: center; margin-top: 20px;">
+                    <video width="560" controls>
+                        <source src="lecturer.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
             </li>
             <li>
                 <div class="phrase-container">
@@ -329,7 +334,6 @@
                     </button>
                 </div>
                 <span style="font-size: 0.9em; color: #555;">“Hi! How’s it going?”</span>
-                <p class="feedback">Your turn! Repeat out loud!</p>
             </li>
             <li>
                 <div class="phrase-container">
@@ -340,7 +344,6 @@
                     </button>
                 </div>
                 <span style="font-size: 0.9em; color: #555;">“Excuse me, could you help me find this item, please?”</span>
-                <p class="feedback">Your turn! Repeat out loud!</p>
             </li>
         </ul>
 
