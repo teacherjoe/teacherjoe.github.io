@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practice Page</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+            border-left: 6px solid #9ab8fe;
+        }
+
+        h1 {
+            font-size: 36px;
+            color: #4a4a4a;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        h1:after {
+            content: "";
+            display: block;
+            width: 60px;
+            height: 4px;
+            background-color: #9ab8fe;
+            margin: 10px auto 0;
+        }
+
+        h2 {
+            font-size: 24px;
+            color: #333;
+            margin: 20px 0 10px;
+            text-align: left;
+            position: relative;
+        }
+
+        h2:after {
+            content: "";
+            display: block;
+            width: 40px;
+            height: 2px;
+            background-color: #9ab8fe;
+            margin: 5px 0 10px;
+        }
+
+        p {
+            font-size: 18px;
+            color: #555;
+            margin: 10px 0;
+        }
+
+        ul {
+            padding-left: 0;
+            margin: 20px 0;
+            list-style-type: none;
+        }
+
+        li {
+            font-size: 18px;
+            margin: 10px 0;
+            display: flex;
+            align-items: left;
+            justify-content: space-between;
+        }
+
+        strong { color: #333; }
+
+        .listen-button {
+            flex-shrink: 0;
+            width: 120px;
+            height: 40px;
+            padding: 0;
+            font-size: 16px;
+            color: #ffffff;
+            background-color: #9ab8fe;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            background: linear-gradient(to right, #9ab8fe 0%, #9ab8fe 100%);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .listen-button:hover {
+            background-color: #28a745;
+        }
+
+        .listen-button:active {
+            box-shadow: 0 0 10px #28a745;
+        }
+
+        .confirmation-message {
+            margin-top: 5px;
+            font-size: 0.9em;
+            color: #28a745;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <h1>Practice Saying These Out Loud!</h1>
+
+        <p>You can click the audio button under each greeting and phrase to hear me speaking! Listen and practice saying them out aloud to become confident and comfortable using them!</p>
+
+        <h2>Common Greetings</h2>
+
+        <ul>
+            <li style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <strong>“Good morning”</strong><br>
+                    <span style="font-size: 0.9em; color: #555;">Use before noon.</span>
+                </div>
+                <button class="listen-button" onclick="playAudio('good-morning')">Listen ▶️</button>
+            </li>
+            <li style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <strong>“Good afternoon”</strong><br>
+                    <span style="font-size: 0.9em; color: #555;">Use after 12 PM until around 5 PM.</span>
+                </div>
+                <button class="listen-button" onclick="playAudio('good-afternoon')">Listen ▶️</button>
+            </li>
+            <li style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <strong>“Good evening”</strong><br>
+                    <span style="font-size: 0.9em; color: #555;">Use after 5 PM, typically until bedtime.</span>
+                </div>
+                <button class="listen-button" onclick="playAudio('good-evening')">Listen ▶️</button>
+            </li>
+        </ul>
+
+        <h2>Practice Makes Perfect</h2>
+
+        <p>Try using these phrases in your daily interactions. Whether you're speaking to a professor, a shop assistant, or a new friend, these greetings and polite expressions will help you communicate effectively and courteously.</p>
+
+        <p><strong>Remember, in British culture, a little politeness goes a long way!</strong></p>
+    </div>
+
+    <script>
+        function playAudio(id) {
+            const audio = new Audio(`${id}.mp3`);
+            const button = document.querySelector(`button[onclick="playAudio('${id}')"]`);
+            const confirmationMessage = document.createElement("p");
+            confirmationMessage.classList.add("confirmation-message");
+            confirmationMessage.textContent = "";
+
+            // Add the confirmation message placeholder if not present
+            if (!button.nextElementSibling || !button.nextElementSibling.classList.contains("confirmation-message")) {
+                button.parentElement.appendChild(confirmationMessage);
+            }
+
+            audio.addEventListener("timeupdate", () => {
+                const progress = (audio.currentTime / audio.duration) * 100;
+                button.style.background = `linear-gradient(to right, #7a9ce3 ${progress}%, #9ab8fe ${progress}%)`;
+            });
+
+            audio.addEventListener("ended", () => {
+                button.style.background = "#9ab8fe"; // Reset to original color
+                button.nextElementSibling.textContent = "Your turn! Repeat out loud.";
+            });
+
+            audio.play().catch((error) => {
+                console.error(`Error playing audio file: ${error.message}`);
+            });
+        }
+    </script>
+</body>
+</html>
