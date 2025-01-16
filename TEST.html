@@ -74,8 +74,16 @@
             font-size: 18px;
             margin: 20px 0;
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        .phrase-container {
+            display: flex;
             align-items: center;
+            justify-content: space-between;
+            width: 100%;
         }
 
         strong { color: #333; }
@@ -90,9 +98,8 @@
             border-radius: 8px;
             cursor: pointer;
             text-align: center;
-            background: linear-gradient(to right, #9ab8fe 0%, #9ab8fe 100%);
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
             position: relative;
+            overflow: hidden;
         }
 
         .listen-button::before {
@@ -103,21 +110,17 @@
             height: 100%;
             width: 0;
             background-color: #4169e1;
-            transition: width 0.5s linear;
+            transition: width 0.1s linear;
             z-index: 0;
-        }
-
-        .listen-button:hover {
-            background-color: #28a745;
-        }
-
-        .listen-button:active {
-            box-shadow: 0 0 10px #28a745;
         }
 
         .listen-button span {
             position: relative;
             z-index: 1;
+        }
+
+        .listen-button:hover {
+            background-color: #28a745;
         }
 
         .feedback {
@@ -153,27 +156,42 @@
 
         <ul>
             <li>
-                <strong>“Good morning”</strong>
-                <button class="listen-button" onclick="playAudio('good-morning', this)"><span>Listen ▶️</span></button>
+                <div class="phrase-container">
+                    <strong>“Good morning”</strong>
+                    <button class="listen-button" onclick="playAudio('good-morning', this)"><span>Listen ▶️</span></button>
+                </div>
+                <span style="font-size: 0.9em; color: #555;">Use before noon.</span>
                 <p class="feedback">Your turn! Repeat out loud!</p>
             </li>
-            <!-- Additional greetings go here -->
+            <li>
+                <div class="phrase-container">
+                    <strong>“Good afternoon”</strong>
+                    <button class="listen-button" onclick="playAudio('good-afternoon', this)"><span>Listen ▶️</span></button>
+                </div>
+                <span style="font-size: 0.9em; color: #555;">Use after 12 PM until around 5 PM.</span>
+                <p class="feedback">Your turn! Repeat out loud!</p>
+            </li>
         </ul>
 
         <h2>Polite Phrases</h2>
 
         <ul>
             <li>
-                <strong>“Please”</strong>
-                <button class="listen-button" onclick="playAudio('please', this)"><span>Listen ▶️</span></button>
+                <div class="phrase-container">
+                    <strong>“Please”</strong>
+                    <button class="listen-button" onclick="playAudio('please', this)"><span>Listen ▶️</span></button>
+                </div>
+                <span style="font-size: 0.9em; color: #555;">Always include this when making a request.</span>
                 <p class="feedback">Your turn! Repeat out loud!</p>
             </li>
             <li>
-                <strong>“Cheers”</strong>
-                <button class="listen-button" onclick="playAudio('cheers', this)"><span>Listen ▶️</span></button>
+                <div class="phrase-container">
+                    <strong>“Cheers”</strong>
+                    <button class="listen-button" onclick="playAudio('cheers', this)"><span>Listen ▶️</span></button>
+                </div>
+                <span style="font-size: 0.9em; color: #555;">An informal way to say thank you in British English.</span>
                 <p class="feedback">Your turn! Repeat out loud!</p>
             </li>
-            <!-- Additional polite phrases go here -->
         </ul>
 
         <h2>Practice Makes Perfect</h2>
@@ -189,12 +207,12 @@
 
             audio.addEventListener("timeupdate", () => {
                 const progress = (audio.currentTime / audio.duration) * 100;
-                button.style.setProperty('--progress', `${progress}%`);
+                button.querySelector('::before').style.width = `${progress}%`;
             });
 
             audio.addEventListener("ended", () => {
                 button.querySelector('::before').style.width = '0';
-                const feedback = button.parentElement.nextElementSibling;
+                const feedback = button.parentElement.parentElement.querySelector('.feedback');
                 feedback.style.display = "block";
             });
 
