@@ -88,9 +88,10 @@
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            text-align: left;
+            text-align: center;
             background: linear-gradient(to right, #9ab8fe 0%, #9ab8fe 100%);
             transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            float: right;
         }
 
         .listen-button:hover {
@@ -137,8 +138,8 @@
                 <div>
                     <strong>“Good morning”</strong><br>
                     <span style="font-size: 0.9em; color: #555;">Use before noon.</span>
+                    <button class="listen-button" onclick="playAudio('good-morning', this)">Listen ▶️</button>
                 </div>
-                <button class="listen-button" onclick="playAudio('good-morning', this)">Listen ▶️</button>
                 <p class="feedback">Your turn! Repeat out loud!</p>
             </li>
             <!-- Additional greetings go here -->
@@ -151,16 +152,16 @@
                 <div>
                     <strong>“Please”</strong><br>
                     <span style="font-size: 0.9em; color: #555;">Always include this when making a request.</span>
+                    <button class="listen-button" onclick="playAudio('please', this)">Listen ▶️</button>
                 </div>
-                <button class="listen-button" onclick="playAudio('please', this)">Listen ▶️</button>
                 <p class="feedback">Your turn! Repeat out loud!</p>
             </li>
             <li>
                 <div>
                     <strong>“Cheers”</strong><br>
                     <span style="font-size: 0.9em; color: #555;">An informal way to say thank you in British English.</span>
+                    <button class="listen-button" onclick="playAudio('cheers', this)">Listen ▶️</button>
                 </div>
-                <button class="listen-button" onclick="playAudio('cheers', this)">Listen ▶️</button>
                 <p class="feedback">Your turn! Repeat out loud!</p>
             </li>
             <!-- Additional polite phrases go here -->
@@ -178,7 +179,7 @@
             const audio = new Audio(`${id}.mp3`);
 
             audio.addEventListener("ended", () => {
-                const feedback = button.nextElementSibling;
+                const feedback = button.parentElement.nextElementSibling;
                 feedback.style.display = "block";
             });
 
