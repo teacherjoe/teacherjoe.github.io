@@ -105,10 +105,12 @@
         }
 
         .confirmation-message {
-            margin-top: 5px;
+            margin: 0 10px 0 0; /* Add spacing between the message and the button */
             font-size: 0.9em;
             color: #28a745;
             font-style: italic;
+            flex-grow: 1; /* Ensures the message takes available space */
+            text-align: right; /* Aligns the message text to the right */
         }
     </style>
 </head>
@@ -127,21 +129,30 @@
                     <strong>“Good morning”</strong><br>
                     <span style="font-size: 0.9em; color: #555;">Use before noon.</span>
                 </div>
-                <button class="listen-button" onclick="playAudio('good-morning')">Listen ▶️</button>
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <p class="confirmation-message" id="good-morning-message"></p>
+                    <button class="listen-button" onclick="playAudio('good-morning')">Listen ▶️</button>
+                </div>
             </li>
             <li style="display: flex; justify-content: space-between; align-items: center;">
                 <div>
                     <strong>“Good afternoon”</strong><br>
                     <span style="font-size: 0.9em; color: #555;">Use after 12 PM until around 5 PM.</span>
                 </div>
-                <button class="listen-button" onclick="playAudio('good-afternoon')">Listen ▶️</button>
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <p class="confirmation-message" id="good-afternoon-message"></p>
+                    <button class="listen-button" onclick="playAudio('good-afternoon')">Listen ▶️</button>
+                </div>
             </li>
             <li style="display: flex; justify-content: space-between; align-items: center;">
                 <div>
                     <strong>“Good evening”</strong><br>
                     <span style="font-size: 0.9em; color: #555;">Use after 5 PM, typically until bedtime.</span>
                 </div>
-                <button class="listen-button" onclick="playAudio('good-evening')">Listen ▶️</button>
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <p class="confirmation-message" id="good-evening-message"></p>
+                    <button class="listen-button" onclick="playAudio('good-evening')">Listen ▶️</button>
+                </div>
             </li>
         </ul>
 
@@ -156,14 +167,7 @@
         function playAudio(id) {
             const audio = new Audio(`${id}.mp3`);
             const button = document.querySelector(`button[onclick="playAudio('${id}')"]`);
-            const confirmationMessage = document.createElement("p");
-            confirmationMessage.classList.add("confirmation-message");
-            confirmationMessage.textContent = "";
-
-            // Add the confirmation message placeholder if not present
-            if (!button.nextElementSibling || !button.nextElementSibling.classList.contains("confirmation-message")) {
-                button.parentElement.appendChild(confirmationMessage);
-            }
+            const message = document.getElementById(`${id}-message`);
 
             audio.addEventListener("timeupdate", () => {
                 const progress = (audio.currentTime / audio.duration) * 100;
@@ -172,7 +176,7 @@
 
             audio.addEventListener("ended", () => {
                 button.style.background = "#9ab8fe"; // Reset to original color
-                button.nextElementSibling.textContent = "Your turn! Repeat out loud.";
+                message.textContent = "Your turn! Repeat out loud.";
             });
 
             audio.play().catch((error) => {
