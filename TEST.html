@@ -294,25 +294,29 @@
     </div>
 
     <script>
-        function playAudio(id) {
-            const audio = new Audio(`${id}.mp3`);
-            const button = document.querySelector(`button[onclick="playAudio('${id}')"]`);
-            const message = document.getElementById(`${id}-message`);
+        <script>
+    function playAudio(id) {
+        const audio = new Audio(`${id}.mp3`);
+        const button = document.querySelector(`button[onclick="playAudio('${id}')"]`);
+        const message = document.getElementById(`${id}-message`);
 
-            audio.addEventListener("timeupdate", () => {
-                const progress = (audio.currentTime / audio.duration) * 100;
-                button.style.background = `linear-gradient(to right, #7a9ce3 ${progress}%, #9ab8fe ${progress}%)`;
-            });
+        audio.addEventListener("timeupdate", () => {
+            const progress = (audio.currentTime / audio.duration) * 100;
+            button.style.background = `linear-gradient(to right, #7a9ce3 ${progress}%, #9ab8fe ${progress}%)`;
+        });
 
-            audio.addEventListener("ended", () => {
-                button.style.background = "#9ab8fe"; // Reset to original color
-                message.textContent = "Your turn! Repeat out loud.";
-            });
+        audio.addEventListener("ended", () => {
+            button.style.background = "#9ab8fe"; // Reset to original color
+            message.textContent = "Your turn! Repeat out loud.";
+        });
 
-            audio.play().catch((error) => {
-                console.error(`Error playing audio file: ${error.message}`);
-            });
-        }
-    </script>
+        message.textContent = ""; // Clear any existing message
+
+        audio.play().catch((error) => {
+            console.error(`Error playing audio file: ${error.message}`);
+            message.textContent = "Sorry, the audio could not be played."; // Display error message if audio fails
+        });
+    }
+</script>
 </body>
 </html>
