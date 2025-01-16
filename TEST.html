@@ -102,16 +102,15 @@
             overflow: hidden;
         }
 
-        .listen-button::before {
-            content: "";
+        .progress-bar {
             position: absolute;
             top: 0;
             left: 0;
             height: 100%;
             width: 0;
             background-color: #4169e1;
-            transition: width 0.1s linear;
             z-index: 0;
+            transition: width 0.1s linear;
         }
 
         .listen-button span {
@@ -158,7 +157,10 @@
             <li>
                 <div class="phrase-container">
                     <strong>“Good morning”</strong>
-                    <button class="listen-button" onclick="playAudio('good-morning', this)"><span>Listen ▶️</span></button>
+                    <button class="listen-button" onclick="playAudio('good-morning', this)">
+                        <div class="progress-bar"></div>
+                        <span>Listen ▶️</span>
+                    </button>
                 </div>
                 <span style="font-size: 0.9em; color: #555;">Use before noon.</span>
                 <p class="feedback">Your turn! Repeat out loud!</p>
@@ -166,7 +168,10 @@
             <li>
                 <div class="phrase-container">
                     <strong>“Good afternoon”</strong>
-                    <button class="listen-button" onclick="playAudio('good-afternoon', this)"><span>Listen ▶️</span></button>
+                    <button class="listen-button" onclick="playAudio('good-afternoon', this)">
+                        <div class="progress-bar"></div>
+                        <span>Listen ▶️</span>
+                    </button>
                 </div>
                 <span style="font-size: 0.9em; color: #555;">Use after 12 PM until around 5 PM.</span>
                 <p class="feedback">Your turn! Repeat out loud!</p>
@@ -179,7 +184,10 @@
             <li>
                 <div class="phrase-container">
                     <strong>“Please”</strong>
-                    <button class="listen-button" onclick="playAudio('please', this)"><span>Listen ▶️</span></button>
+                    <button class="listen-button" onclick="playAudio('please', this)">
+                        <div class="progress-bar"></div>
+                        <span>Listen ▶️</span>
+                    </button>
                 </div>
                 <span style="font-size: 0.9em; color: #555;">Always include this when making a request.</span>
                 <p class="feedback">Your turn! Repeat out loud!</p>
@@ -187,7 +195,10 @@
             <li>
                 <div class="phrase-container">
                     <strong>“Cheers”</strong>
-                    <button class="listen-button" onclick="playAudio('cheers', this)"><span>Listen ▶️</span></button>
+                    <button class="listen-button" onclick="playAudio('cheers', this)">
+                        <div class="progress-bar"></div>
+                        <span>Listen ▶️</span>
+                    </button>
                 </div>
                 <span style="font-size: 0.9em; color: #555;">An informal way to say thank you in British English.</span>
                 <p class="feedback">Your turn! Repeat out loud!</p>
@@ -204,14 +215,15 @@
     <script>
         function playAudio(id, button) {
             const audio = new Audio(`${id}.mp3`);
+            const progressBar = button.querySelector('.progress-bar');
 
             audio.addEventListener("timeupdate", () => {
                 const progress = (audio.currentTime / audio.duration) * 100;
-                button.querySelector('::before').style.width = `${progress}%`;
+                progressBar.style.width = `${progress}%`;
             });
 
             audio.addEventListener("ended", () => {
-                button.querySelector('::before').style.width = '0';
+                progressBar.style.width = '0';
                 const feedback = button.parentElement.parentElement.querySelector('.feedback');
                 feedback.style.display = "block";
             });
