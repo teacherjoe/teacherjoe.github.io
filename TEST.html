@@ -360,6 +360,54 @@
     const progressBar = button.querySelector('.progress-bar');
     const video = document.getElementById(videoId);
 
+    // Play video if present
+    if (video) {
+        video.style.display = 'block';
+        video.currentTime = 0; // Reset video to start
+        video.play().catch(error => {
+            console.error(`Error playing video file: ${error.message}`);
+        });
+    }
+
+    // Play audio
+    audio.addEventListener("timeupdate", () => {
+        const progress = (audio.currentTime / audio.duration) * 100;
+        progressBar.style.width = `${progress}%`;
+    });
+
+    audio.addEventListener("ended", () => {
+        progressBar.style.width = '0';
+        const feedback = button.parentElement.parentElement.querySelector('.feedback');
+        if (feedback) feedback.style.display = "block";
+    });
+
+    audio.play().catch(error => {
+        console.error(`Error playing audio file: ${error.message}`);
+    });
+}
+
+function playAudio(id, button) {
+    const audio = new Audio(`${id}.mp3`);
+    const progressBar = button.querySelector('.progress-bar');
+
+    audio.addEventListener("timeupdate", () => {
+        const progress = (audio.currentTime / audio.duration) * 100;
+        progressBar.style.width = `${progress}%`;
+    });
+
+    audio.addEventListener("ended", () => {
+        progressBar.style.width = '0';
+        const feedback = button.parentElement.parentElement.querySelector('.feedback');
+        if (feedback) feedback.style.display = "block";
+    });
+
+    audio.play().catch(error => {
+        console.error(`Error playing audio file: ${error.message}`);
+    });
+}.mp3`);
+    const progressBar = button.querySelector('.progress-bar');
+    const video = document.getElementById(videoId);
+
     // Play video
     if (video) {
         video.style.display = 'block'; // Show the video
