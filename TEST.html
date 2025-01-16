@@ -165,7 +165,7 @@
                     </button>
                 </div>
                 <span style="font-size: 0.9em; color: #555;">“Good morning, Professor. How are you?”</span>
-                <div id="lecturer-video" style="text-align: center; margin-top: 20px; display: none;">
+                <div id="lecturer-video" style="text-align: center; margin: 20px auto; display: flex; justify-content: center;">
                     <video id="video-greeting-lecturer" width="560" controls>
                         <source src="lecturer.mp4" type="video/mp4">
                         Your browser does not support the video tag.
@@ -179,6 +179,33 @@
     <script>
         function playAudioAndVideo(id, videoId, button) {
             const audio = new Audio(`${id}.mp3`);
+            const progressBar = button.querySelector('.progress-bar');
+            const video = document.getElementById(videoId);
+
+            // Ensure video plays
+            if (video) {
+                video.currentTime = 0; // Reset video to start
+                video.play().catch(error => {
+                    console.error(`Error playing video file: ${error.message}`);
+                });
+            }
+
+            // Play audio
+            audio.addEventListener("timeupdate", () => {
+                const progress = (audio.currentTime / audio.duration) * 100;
+                progressBar.style.width = `${progress}%`;
+            });
+
+            audio.addEventListener("ended", () => {
+                progressBar.style.width = '0';
+                const feedback = button.parentElement.parentElement.querySelector('.feedback');
+                if (feedback) feedback.style.display = "block";
+            });
+
+            audio.play().catch(error => {
+                console.error(`Error playing audio file: ${error.message}`);
+            });
+        }.mp3`);
             const progressBar = button.querySelector('.progress-bar');
             const video = document.getElementById(videoId);
 
