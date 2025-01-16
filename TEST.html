@@ -312,14 +312,14 @@
             <li>
                 <div class="phrase-container">
                     <strong>Greeting a Lecturer:</strong>
-                    <button class="listen-button" onclick="playScenarioWithVideo('greeting-lecturer', 'lecturer-video', this)">
+                    <button class="listen-button" onclick="playAudioAndVideo('greeting-lecturer', 'lecturer-video', this)">
                         <div class="progress-bar"></div>
                         <span>Listen ▶️</span>
                     </button>
                 </div>
                 <span style="font-size: 0.9em; color: #555;">“Good morning, Professor. How are you?”</span>
-                <div id="lecturer-video" style="display: none; text-align: center; margin-top: 20px;">
-                    <video width="560" controls>
+                <div id="lecturer-video" style="text-align: center; margin-top: 20px; display: none;">
+                    <video id="video-greeting-lecturer" width="560" controls>
                         <source src="lecturer.mp4" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
