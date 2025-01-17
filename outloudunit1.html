@@ -320,7 +320,7 @@
                 </div>
                 <span style="font-size: 0.9em; color: #555;">“Good morning, Professor. How are you?”</span>
                 <div id="lecturer-video" style="text-align: center; margin: 20px auto; display: flex; justify-content: center;">
-                    <video id="video-greeting-lecturer" style="max-width: 100%; height: auto;" controls preload="auto">
+                    <video id="video-greeting-lecturer" style="max-width: 100%; height: auto;" preload="auto">
                         <source src="lecturer.mp4" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
@@ -336,7 +336,7 @@
                 </div>
                 <span style="font-size: 0.9em; color: #555;">“Hi! How’s it going?”</span>
                 <div id="friend-video" style="text-align: center; margin: 20px auto; display: flex; justify-content: center;">
-                    <video id="video-meeting-friend" style="max-width: 100%; height: auto;" controls preload="auto">
+                    <video id="video-meeting-friend" style="max-width: 100%; height: auto;"  preload="auto">
                         <source src="meeting-friend.mp4" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
@@ -352,7 +352,7 @@
                 </div>
                 <span style="font-size: 0.9em; color: #555;">“Excuse me, could you help me find this item, please?”</span>
                 <div id="store-video" style="text-align: center; margin: 20px auto; display: flex; justify-content: center;">
-                    <video id="video-help-store" style="max-width: 100%; height: auto;" controls preload="auto">
+                    <video id="video-help-store" style="max-width: 100%; height: auto;"  preload="auto">
                         <source src="help-store.mp4" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
@@ -374,6 +374,9 @@
             audio.preload = 'auto';
             const progressBar = button.querySelector('.progress-bar');
             const video = document.getElementById(videoId);
+            if (video) {
+                video.style.display = 'block'; // Ensure the video is visible
+            }
 
             // Ensure video plays
             if (video) {
