@@ -328,22 +328,34 @@
             <li>
                 <div class="phrase-container">
                     <strong>Meeting a Friend:</strong>
-                    <button class="listen-button" onclick="playAudioAndVideo('meeting-friend', '', this)">
+                    <button class="listen-button" onclick="playAudioAndVideo('meeting-friend', 'video-meeting-friend', this)">
                         <div class="progress-bar"></div>
                         <span>Listen ▶️</span>
                     </button>
                 </div>
                 <span style="font-size: 0.9em; color: #555;">“Hi! How’s it going?”</span>
+                <div id="friend-video" style="text-align: center; margin: 20px auto; display: flex; justify-content: center;">
+                    <video id="video-meeting-friend" style="max-width: 100%; height: auto;" controls>
+                        <source src="meeting-friend.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
             </li>
             <li>
                 <div class="phrase-container">
                     <strong>Asking for Help in a Store:</strong>
-                    <button class="listen-button" onclick="playAudioAndVideo('help-store', '', this)">
+                    <button class="listen-button" onclick="playAudioAndVideo('help-store', 'video-help-store', this)">
                         <div class="progress-bar"></div>
                         <span>Listen ▶️</span>
                     </button>
                 </div>
                 <span style="font-size: 0.9em; color: #555;">“Excuse me, could you help me find this item, please?”</span>
+                <div id="store-video" style="text-align: center; margin: 20px auto; display: flex; justify-content: center;">
+                    <video id="video-help-store" style="max-width: 100%; height: auto;" controls>
+                        <source src="help-store.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
             </li>
         </ul>
 
