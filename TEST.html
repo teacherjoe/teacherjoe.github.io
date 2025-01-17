@@ -359,6 +359,10 @@
 
             audio.addEventListener("ended", () => {
                 progressBar.style.width = '0';
+                const feedback = button.parentElement.parentElement.querySelector('.feedback');
+                if (feedback) {
+                    feedback.style.display = "block";
+                }
             });
 
             audio.play().catch(error => {
