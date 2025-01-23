@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Advanced Greetings and Cultural Insights</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+      border-left: 6px solid #9ab8fe;
+    }
+
+    h1 {
+      font-size: 36px;
+      color: #4a4a4a;
+      margin-bottom: 20px;
+      text-align: center;
+      position: relative;
+    }
+
+    h1:after {
+      content: "";
+      display: block;
+      width: 60px;
+      height: 4px;
+      background-color: #9ab8fe;
+      margin: 10px auto 0;
+    }
+
+    h2 {
+      font-size: 24px;
+      color: #333;
+      margin: 20px 0 10px;
+      text-align: left;
+      position: relative;
+    }
+
+    h2:after {
+      content: "";
+      display: block;
+      width: 40px;
+      height: 2px;
+      background-color: #9ab8fe;
+      margin: 5px 0 10px;
+    }
+
+    p {
+      font-size: 18px;
+      color: #555;
+      margin: 10px 0;
+    }
+
+    ul {
+      padding-left: 20px;
+      margin: 20px 0;
+    }
+
+    li {
+      font-size: 18px;
+      margin: 10px 0;
+    }
+
+    strong {
+      color: #333;
+    }
+
+    .video-container {
+      margin: 10px 0;
+      text-align: center;
+    }
+
+    .phrase-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      margin: 10px 0;
+    }
+
+    .listen-button {
+      width: 120px;
+      height: 40px;
+      font-size: 16px;
+      color: #ffffff;
+      background-color: #9ab8fe;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .listen-button:hover {
+      background-color: #28a745;
+    }
+
+    .progress-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 0;
+      background-color: #4169e1;
+      z-index: 0;
+      transition: width 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+    }
+
+    .listen-button span {
+      position: relative;
+      z-index: 1;
+    }
+
+    .feedback {
+      color: #28a745;
+      font-size: 16px;
+      margin-top: 10px;
+      text-align: center;
+      display: none;
+      width: 100%;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 15px;
+      }
+      h1 {
+        font-size: 28px;
+      }
+      .listen-button {
+        width: 100px;
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Advanced Greetings and Cultural Insights</h1>
+
+    <!-- New video under the main title -->
+    <div class="video-container">
+      <video controls style="max-width: 100%; height: auto;">
+        <source src="intro-advanced-greetings.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+
+    <h2>Context &amp; Tone in British Greetings</h2>
+    <p>In the UK, tone and formality can change depending on the situation and the relationship you have with the person you’re greeting:</p>
+    <ul>
+      <li><strong>Formal Examples (Academic/Professional)</strong>
+        <ul>
+          <li>“Good morning, Dr. Smith. How are you today?”</li>
+          <li>“It’s lovely to meet you. Thank you for taking the time.”</li>
+        </ul>
+      </li>
+      <li><strong>Informal / Casual Examples (Friends/Family)</strong>
+        <ul>
+          <li>“Hey, it’s been ages! What’ve you been up to?”</li>
+          <li>“Fancy running into you here—how’s life treating you these days?”</li>
+        </ul>
+      </li>
+    </ul>
+    <p>The key is to match your greeting to the context. A quick “Good morning” might be perfect for an office, but it may sound strange if you’re greeting a close friend after months apart.</p>
+
+    <h2>Formal vs. Casual</h2>
+    <p>Let’s see how word choice differs when you’re meeting a professor versus running into a friend.</p>
+
+    <p><strong>Formal situation:</strong></p>
+    <div class="video-container">
+      <video controls style="max-width: 100%; height: auto;">
+        <source src="formal-situation.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+
+    <p><strong>Casual situation:</strong></p>
+    <div class="video-container">
+      <video controls style="max-width: 100%; height: auto;">
+        <source src="casual-situation.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+
+    <p><em>Reflect:</em> In Scenario B, which words or phrases help create a relaxed, informal tone?</p>
+
+    <h2>Advanced Phrases &amp; Idioms for Everyday Greetings</h2>
+    <p>Ready to expand beyond basic greetings? Below are some common British expressions and idioms you might hear:</p>
+    <p><strong>[LISTEN AND REPEAT BUTTONS]</strong></p>
+
+    <ul>
+      <li>
+        <div class="phrase-container">
+          <strong>“Long time no see!”</strong>
+          <button class="listen-button" onclick="playAudioAndVideo('long-time-no-see', '', this)">
+            <div class="progress-bar"></div>
+            <span>Listen ▶️</span>
+          </button>
+        </div>
+        <p class="feedback" style="display: none;">Your turn! Repeat out loud!</p>
+        <p><em>People often think this sounds incorrect (like “Chinglish”), but it’s commonly used!</em><br>
+        <strong>Meaning:</strong> It’s been a while since we last met.<br>
+        <strong>Usage:</strong> Casual, used among friends or acquaintances you haven’t seen recently.</p>
+      </li>
+
+      <li>
+        <div class="phrase-container">
+          <strong>“I’m absolutely knackered.”</strong>
+          <button class="listen-button" onclick="playAudioAndVideo('absolutely-knackered', '', this)">
+            <div class="progress-bar"></div>
+            <span>Listen ▶️</span>
+          </button>
+        </div>
+        <p class="feedback" style="display: none;">Your turn! Repeat out loud!</p>
+        <p><em>Slang term</em><br>
+        <strong>Meaning:</strong> Extremely tired or worn out.<br>
+        <strong>Usage:</strong> Informal or semi-casual; typically for friends, classmates, or colleagues you’re close to.</p>
+      </li>
+
+      <li>
+        <div class="phrase-container">
+          <strong>“I’m over the moon!”</strong>
+          <button class="listen-button" onclick="playAudioAndVideo('over-the-moon', '', this)">
+            <div class="progress-bar"></div>
+            <span>Listen ▶️</span>
+          </button>
+        </div>
+        <p class="feedback" style="display: none;">Your turn! Repeat out loud!</p>
+        <p><em>Idiom</em><br>
+        <strong>Meaning:</strong> Really happy or excited about something.<br>
+        <strong>Usage:</strong> Casual to semi-formal; commonly used in everyday conversations to express delight.</p>
+      </li>
+
+      <li>
+        <div class="phrase-container">
+          <strong>“Fancy meeting you here!”</strong>
+          <button class="listen-button" onclick="playAudioAndVideo('fancy-meeting-you-here', '', this)">
+            <div class="progress-bar"></div>
+            <span>Listen ▶️</span>
+          </button>
+        </div>
+        <p class="feedback" style="display: none;">Your turn! Repeat out loud!</p>
+        <p><strong>Meaning:</strong> Expresses surprise and pleasure at seeing someone unexpectedly.<br>
+        <strong>Usage:</strong> Casual; can sound playfully ironic if the meeting is truly coincidental.</p>
+      </li>
+
+      <li>
+        <div class="phrase-container">
+          <strong>“I’m absolutely gutted.”</strong>
+          <button class="listen-button" onclick="playAudioAndVideo('absolutely-gutted', '', this)">
+            <div class="progress-bar"></div>
+            <span>Listen ▶️</span>
+          </button>
+        </div>
+        <p class="feedback" style="display: none;">Your turn! Repeat out loud!</p>
+        <p><em>Slang term</em><br>
+        <strong>Meaning:</strong> Extremely disappointed or upset.<br>
+        <strong>Usage:</strong> Casual expression, often used among friends. “Gutted” refers to that bad feeling in your stomach when you’re very upset.</p>
+      </li>
+    </ul>
+
+    <h2>Politeness &amp; Indirectness</h2>
+    <p>British communication often features indirect language:</p>
+    <ul>
+      <li><strong>Apologies:</strong> Saying “sorry” even if you aren’t at fault is common. If you bump into someone in the street, you’ll say “sorry,” and they might also say “sorry.” This maintains peace and harmony and shows there are no hard feelings.</li>
+      <li><strong>Softened Requests:</strong> Phrases like “Would you mind if...?” or “Could you possibly...?” help make direct requests more polite.</li>
+    </ul>
+    <p>Notice how these changes in wording can affect the tone:</p>
+    <ul>
+      <li><strong>Direct:</strong> “Can I interrupt you?”</li>
+      <li><strong>Softer:</strong> “Sorry to interrupt—do you mind if I jump in here?”</li>
+    </ul>
+    <p>Learning these nuances will help you navigate conversations without appearing too abrupt (or even rude).</p>
+
+    <h2>British TV Hosts Introductions</h2>
+    <p>Observe how British hosts greet their audiences:</p>
+    <div class="video-container">
+      <video controls style="max-width: 100%; height: auto;">
+        <source src="british-tv-intros.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+    <p>Try to notice any idiomatic language or unique intonation. Then ask yourself:</p>
+    <ul>
+      <li>Would these greetings sound appropriate in a business setting?</li>
+      <li>How do tone and body language reinforce the level of casualness or formality?</li>
+    </ul>
+    <p>Even if you can’t perfectly mimic a British accent, understanding tone and body language helps you look, feel, and sound more natural!</p>
+
+    <h2>Congratulations!</h2>
+    <p>You’ve now learned several more advanced expressions and cultural insights around British greetings:</p>
+    <ul>
+      <li><strong>Adapting to Context:</strong> Are you speaking with a professor or an old friend? Your greeting should reflect that difference in formality.</li>
+      <li><strong>Using Idioms Wisely:</strong> Incorporate new idioms one or two at a time until you’re comfortable. It’s fine to only use a handful daily, even if you understand many more.</li>
+      <li><strong>Cultural Politeness:</strong> British speakers often use indirect language and polite markers. Pay attention to your tone and choice of phrases.</li>
+    </ul>
+
+    <p><strong>Answer these questions in the community discussion:</strong></p>
+    <ul>
+      <li>Which of the new expressions do you like the most, and in what situation would you use it?</li>
+      <li>Can you recall a recent conversation where a more advanced British greeting could have worked better?</li>
+    </ul>
+
+    <p>Feel free to share your thoughts or examples in the discussion section. I’ll try to give you some feedback and answer any questions you may have!</p>
+    <p><strong>Next lesson:</strong> There will be a short task to check your understanding of these more advanced phrases and cultural insights!</p>
+  </div>
+
+  <script>
+    function playAudioAndVideo(id, videoId, button) {
+      const audio = document.createElement('audio');
+      audio.src = `${id}.mp3`;
+      audio.preload = 'auto';
+      const progressBar = button.querySelector('.progress-bar');
+
+      const video = document.getElementById(videoId);
+      if (video) {
+        video.currentTime = 0;
+        video.play().catch(error => console.error(`Video error: ${error}`));
+      }
+
+      audio.addEventListener("timeupdate", () => {
+        const progress = (audio.currentTime / audio.duration) * 100;
+        progressBar.style.width = `${progress}%`;
+      });
+
+      audio.addEventListener("ended", () => {
+        progressBar.style.width = '0';
+        const feedback = button.parentElement.parentElement.querySelector('.feedback');
+        if (feedback) {
+          feedback.style.display = "block";
+        }
+      });
+
+      audio.play().catch(error => console.error(`Audio error: ${error}`));
+    }
+  </script>
+</body>
+</html>
