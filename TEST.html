@@ -121,6 +121,7 @@
             color: black;
         }
 
+        /* Media Query for Mobile */
         @media (max-width: 768px) {
             .phrase, .dropzone {
                 font-size: 14px; /* Adjust the font size for mobile */
@@ -133,6 +134,10 @@
             .phrase {
                 max-width: 90%; /* Ensure the phrase does not overflow */
             }
+        }
+
+        .hidden {
+            display: none;
         }
     </style>
 <script src="drag-drop-touch.esm.min.js?autoload" type="module"></script>
@@ -280,6 +285,8 @@
         const phrases = document.querySelectorAll('.phrase');
         const dropzones = document.querySelectorAll('.dropzone');
         const restartBtn = document.getElementById('restart-btn');
+
+        let currentPage = 1;
 
         phrases.forEach(phrase => {
             phrase.addEventListener('dragstart', drag);
