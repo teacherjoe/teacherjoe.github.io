@@ -300,6 +300,19 @@
         correctAudio.onerror = () => console.error('Error loading correct sound.');
         incorrectAudio.onerror = () => console.error('Error loading incorrect sound.');
 
+        // Play audio after user interaction
+        let audioReady = false;
+
+        function setupAudio() {
+            if (!audioReady) {
+                // Make sure the audio has loaded and is ready to play
+                applauseAudio.load();
+                correctAudio.load();
+                incorrectAudio.load();
+                audioReady = true;
+            }
+        }
+
         phrases.forEach(phrase => {
             phrase.addEventListener('dragstart', drag);
             phrase.addEventListener('dragend', endDrag);
@@ -329,6 +342,8 @@
 
         function drop(event) {
             event.preventDefault();
+            setupAudio();  // Set up the audio for playback after user interaction
+
             const data = event.dataTransfer.getData("text");
             const target = event.target;
 
@@ -396,5 +411,6 @@
         }
     });
 </script>
+
 </body>
 </html>
