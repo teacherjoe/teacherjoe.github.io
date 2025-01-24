@@ -37,6 +37,9 @@
             background-color: #9ab8fe;
             color: #fff;
             transition: transform 0.2s;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
         }
         .phrase:hover {
             transform: scale(1.05);
@@ -46,8 +49,13 @@
         }
         .dropzone {
             background-color: #e9e9e9;
-            height: 50px;
             position: relative;
+            min-height: 50px; /* Minimum height */
+            padding: 10px;
+            box-sizing: border-box;
+            width: 100%;
+            overflow: auto; /* Allows scrolling if content is too large */
+            transition: all 0.2s ease; /* Smooth resizing */
         }
         .tick, .cross {
             position: absolute;
@@ -91,6 +99,12 @@
         .arrow {
             font-size: 24px;
             color: black;
+        }
+
+        @media (max-width: 768px) {
+            .phrase, .dropzone {
+                font-size: 14px;
+            }
         }
     </style>
 <script src="drag-drop-touch.esm.min.js?autoload" type="module"></script>
@@ -224,20 +238,43 @@
 
     <!-- Completion Page -->
     <div id="completion" class="quiz-container hidden">
-        <h1>Woooohoooo, you're making progress! Well done!</h1>
+        <h1>Wooooohoooo! You're doing great! Well done!</h1>
         <img src="https://teacherjoe.github.io/completion-image2.jpg" alt="Well Done" class="completion-image">
         <button class="restart-button" id="restart-btn">Restart Activity</button>
         <div class="footer">100% complete! Congratulations!</div>
     </div>
 </div>
+
+<!-- Audio -->
 <audio id="applause-sound" src="applause.mp3"></audio>
 <audio id="correct-sound" src="correct.mp3"></audio>
 <audio id="incorrect-sound" src="incorrect.mp3"></audio>
+
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const phrases = document.querySelectorAll('.phrase');
         const dropzones = document.querySelectorAll('.dropzone');
         const restartBtn = document.getElementById('restart-btn');
+
+        const applauseAudio = document.getElementById("applause-sound");
+        const correctAudio = document.getElementById("correct-sound");
+        const incorrectAudio = document.getElementById("incorrect-sound");
+
+        let audioUnlocked = false;
+
+        // Preload the audio files
+        applauseAudio.preload = 'auto';  
+        correctAudio.preload = 'auto';  
+        incorrectAudio.preload = 'auto';  
+
+        // Add an event listener for the first user interaction (touch or click)
+        document.body.addEventListener('click', unlockAudio, { once: true });
+        document.body.addEventListener('touchstart', unlockAudio, { once: true });
+
+        // Function to unlock audio playback
+        function unlockAudio() {
+            audioUnlocked = true;
+        }
 
         phrases.forEach(phrase => {
             phrase.addEventListener('dragstart', drag);
@@ -280,12 +317,18 @@
                     target.querySelector(".tick").style.display = "inline";
                     target.querySelector(".cross").style.display = "none";
                     phrase.style.display = "none";
-                    document.getElementById("correct-sound").play();
+                    if (audioUnlocked) {
+                        correctAudio.currentTime = 0;
+                        correctAudio.play().catch(err => console.error("Audio playback error:", err));
+                    }
                     checkCompletion();
                 } else {
                     target.querySelector(".cross").style.display = "inline";
                     target.querySelector(".tick").style.display = "none";
-                    document.getElementById("incorrect-sound").play();
+                    if (audioUnlocked) {
+                        incorrectAudio.currentTime = 0;
+                        incorrectAudio.play().catch(err => console.error("Audio playback error:", err));
+                    }
                     phrase.classList.remove("hidden");
                 }
             }
@@ -307,9 +350,10 @@
                     document.getElementById("completion").classList.remove("hidden");
                     document.getElementById("quiz-heading").classList.add("hidden");
 
-                    const applauseAudio = document.getElementById("applause-sound");
-                    applauseAudio.currentTime = 0;
-                    applauseAudio.play().catch(err => console.error("Audio playback error:", err));
+                    if (audioUnlocked) {
+                        applauseAudio.currentTime = 0;
+                        applauseAudio.play().catch(err => console.error("Audio playback error:", err));
+                    }
                 }
             }
         }
@@ -328,6 +372,7 @@
                 zone.querySelector("p")?.remove();
                 zone.querySelector(".tick").style.display = "none";
                 zone.querySelector(".cross").style.display = "none";
+                zone.style.height = '50px'; // Reset height to minimum
             });
         }
     });
