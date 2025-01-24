@@ -291,14 +291,30 @@
 
         let currentPage = 1;
 
+        // Get audio elements
         const applauseAudio = document.getElementById("applause-sound");
         const correctAudio = document.getElementById("correct-sound");
         const incorrectAudio = document.getElementById("incorrect-sound");
+
+        let audioUnlocked = false;  // Flag to ensure audio is unlocked after first interaction
+
+        // Preload audio files
+        applauseAudio.preload = 'auto';  // Automatically preload the audio file
+        correctAudio.preload = 'auto';  // Automatically preload the audio file
+        incorrectAudio.preload = 'auto';  // Automatically preload the audio file
 
         // Ensure that audio files load correctly
         applauseAudio.onerror = () => console.error('Error loading applause sound.');
         correctAudio.onerror = () => console.error('Error loading correct sound.');
         incorrectAudio.onerror = () => console.error('Error loading incorrect sound.');
+
+        // Unlock audio after first user interaction (click or drag start)
+        document.body.addEventListener('click', unlockAudio, { once: true });
+        document.body.addEventListener('touchstart', unlockAudio, { once: true });
+
+        function unlockAudio() {
+            audioUnlocked = true;  // Allow audio to play after first interaction
+        }
 
         phrases.forEach(phrase => {
             phrase.addEventListener('dragstart', drag);
@@ -329,10 +345,15 @@
 
         function drop(event) {
             event.preventDefault();
-
+            
             // Play sound after the drop event to ensure mobile compatibility
             const data = event.dataTransfer.getData("text");
             const target = event.target;
+
+            if (!audioUnlocked) {
+                console.log("Audio is not unlocked yet.");
+                return;  // Prevent audio from playing if not unlocked
+            }
 
             if (target.classList.contains("dropzone")) {
                 const phrase = document.getElementById(data);
@@ -356,8 +377,10 @@
 
         // Function to play sound (from original code)
         function playSound(audio) {
-            audio.currentTime = 0;  // Rewind the sound
-            audio.play().catch(err => console.error("Audio playback error:", err));
+            if (audioUnlocked) {
+                audio.currentTime = 0;  // Rewind the sound
+                audio.play().catch(err => console.error("Audio playback error:", err));
+            }
         }
 
         function checkCompletion() {
@@ -399,6 +422,7 @@
         }
     });
 </script>
+
 
 
 </body>
