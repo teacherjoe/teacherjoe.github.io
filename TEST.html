@@ -4,145 +4,145 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Drag and Drop Quiz</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #FFFFFF;
-            margin: 0;
-            padding: 20px;
-            text-align: center;
-            box-sizing: border-box;
-        }
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #FFFFFF;
+        margin: 0;
+        padding: 20px;
+        text-align: center;
+        box-sizing: border-box;
+    }
 
-        .container {
-            max-width: 800px;
-            margin: auto;
-        }
+    .container {
+        max-width: 800px;
+        margin: auto;
+    }
 
-        .quiz-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+    .quiz-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
-        .column {
-            width: 100%; /* Ensure this takes full width of its container */
-            margin: 0 auto 20px;
-        }
+    .column {
+        width: 90%; /* Keeping it at 90% width as per your original code */
+        margin: 0 auto 20px;
+    }
 
-        .phrase, .dropzone, .restart-button {
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            text-align: center;
-            cursor: pointer;
-            border-radius: 25px;
-            box-sizing: border-box;
-            width: 100%; /* Ensure the elements take full width of their container */
-            overflow: hidden; /* Prevent overflow */
-            display: inline-block; /* Allow alignment */
-        }
+    .phrase, .dropzone, .restart-button {
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        text-align: center;
+        cursor: pointer;
+        border-radius: 25px;
+        box-sizing: border-box;
+        width: 90%; /* Keeping it at 90% width as per your original code */
+        overflow: hidden;
+        display: inline-block; /* Keep elements inline-block */
+    }
 
-        .phrase {
-            background-color: #9ab8fe;
-            color: #fff;
-            transition: transform 0.2s;
-            white-space: nowrap; /* Prevent text from wrapping */
-            text-overflow: ellipsis; /* Add ellipsis if text overflows */
-            word-wrap: break-word;
-        }
+    .phrase {
+        background-color: #9ab8fe;
+        color: #fff;
+        transition: transform 0.2s;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
 
-        .phrase:hover {
-            transform: scale(1.05);
-        }
+    .phrase:hover {
+        transform: scale(1.05);
+    }
 
-        .phrase.hidden {
-            visibility: hidden;
+    .phrase.hidden {
+        visibility: hidden;
+    }
+
+    .dropzone {
+        background-color: #e9e9e9;
+        position: relative;
+        padding: 10px;
+        text-align: center;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column; /* Stack phrases vertically */
+        justify-content: flex-start;
+        align-items: center;
+        width: 90%; /* Keep width consistent with phrases */
+        min-height: 50px; /* Initial height for the drop zone */
+        overflow: hidden;
+        flex-grow: 1;
+    }
+
+    .dropzone .tick, .dropzone .cross {
+        position: absolute;
+        right: 10px;
+        top: 5px;
+        font-size: 24px;
+        display: none;
+    }
+
+    .tick {
+        color: green;
+    }
+
+    .cross {
+        color: red;
+    }
+
+    .footer {
+        margin-top: 20px;
+        font-weight: bold;
+    }
+
+    .restart-button {
+        background-color: #9ab8fe;
+        color: #fff;
+        border: none;
+        font-size: 16px;
+        transition: background-color 0.3s;
+    }
+
+    .restart-button:hover {
+        background-color: #7a98dc;
+    }
+
+    .completion-image {
+        width: 300px;
+        margin: 20px auto;
+    }
+
+    .instructions {
+        font-weight: bold;
+        color: black;
+        margin-bottom: 10px;
+    }
+
+    .arrow {
+        font-size: 24px;
+        color: black;
+    }
+
+    @media (max-width: 768px) {
+        .phrase, .dropzone {
+            font-size: 14px;
         }
 
         .dropzone {
-            background-color: #e9e9e9;
-            position: relative;
-            padding: 10px;
-            text-align: center;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column; /* Stack the phrases vertically */
-            justify-content: flex-start; /* Align to the top */
-            align-items: center;
-            width: 100%; /* Ensure the drop zone has the same width as the phrases */
-            min-height: 50px; /* Initial height for the drop zone */
-            overflow: hidden; /* Prevent overflow */
-            flex-grow: 1; /* Allow dropzone to expand as needed */
+            height: auto;
         }
 
-        .dropzone .tick, .dropzone .cross {
-            position: absolute;
-            right: 10px;
-            top: 5px;
-            font-size: 24px;
-            display: none;
+        .phrase {
+            max-width: 90%;
         }
+    }
 
-        .tick {
-            color: green;
-        }
+    .hidden {
+        display: none;
+    }
+</style>
 
-        .cross {
-            color: red;
-        }
-
-        .footer {
-            margin-top: 20px;
-            font-weight: bold;
-        }
-
-        .restart-button {
-            background-color: #9ab8fe;
-            color: #fff;
-            border: none;
-            font-size: 16px;
-            transition: background-color 0.3s;
-        }
-
-        .restart-button:hover {
-            background-color: #7a98dc;
-        }
-
-        .completion-image {
-            width: 300px;
-            margin: 20px auto;
-        }
-
-        .instructions {
-            font-weight: bold;
-            color: black;
-            margin-bottom: 10px;
-        }
-
-        .arrow {
-            font-size: 24px;
-            color: black;
-        }
-
-        @media (max-width: 768px) {
-            .phrase, .dropzone {
-                font-size: 14px; /* Adjust the font size for mobile */
-            }
-
-            .dropzone {
-                height: auto; /* Allow dropzone to resize as needed */
-            }
-
-            .phrase {
-                max-width: 90%; /* Ensure the phrase does not overflow */
-            }
-        }
-
-        .hidden {
-            display: none;
-        }
-    </style>
 <script src="drag-drop-touch.esm.min.js?autoload" type="module"></script>
 </head>
 <body>
@@ -345,7 +345,7 @@
 
         function drop(event) {
             event.preventDefault();
-            
+
             // Play sound after the drop event to ensure mobile compatibility
             const data = event.dataTransfer.getData("text");
             const target = event.target;
@@ -422,8 +422,5 @@
         }
     });
 </script>
-
-
-
 </body>
 </html>
