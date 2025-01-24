@@ -26,7 +26,7 @@
         }
 
         .column {
-            width: 90%;
+            width: 100%; /* Ensure this takes full width of its container */
             margin: 0 auto 20px;
         }
 
@@ -40,6 +40,7 @@
             box-sizing: border-box;
             width: 100%; /* Ensure the elements take full width of their container */
             overflow: hidden; /* Prevent overflow */
+            display: inline-block; /* Allow alignment */
         }
 
         .phrase {
@@ -65,10 +66,8 @@
             padding: 10px;
             text-align: center;
             box-sizing: border-box;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
+            display: inline-block;
+            width: 100%; /* Ensure the drop zone has the same width as the phrases */
             overflow: hidden; /* Ensure overflow is hidden */
         }
 
@@ -121,7 +120,6 @@
             color: black;
         }
 
-        /* Media Query for Mobile */
         @media (max-width: 768px) {
             .phrase, .dropzone {
                 font-size: 14px; /* Adjust the font size for mobile */
