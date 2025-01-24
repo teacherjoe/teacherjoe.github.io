@@ -300,19 +300,6 @@
         correctAudio.onerror = () => console.error('Error loading correct sound.');
         incorrectAudio.onerror = () => console.error('Error loading incorrect sound.');
 
-        // Play audio after user interaction
-        let audioReady = false;
-
-        function setupAudio() {
-            if (!audioReady) {
-                // Make sure the audio has loaded and is ready to play
-                applauseAudio.load();
-                correctAudio.load();
-                incorrectAudio.load();
-                audioReady = true;
-            }
-        }
-
         phrases.forEach(phrase => {
             phrase.addEventListener('dragstart', drag);
             phrase.addEventListener('dragend', endDrag);
@@ -342,8 +329,8 @@
 
         function drop(event) {
             event.preventDefault();
-            setupAudio();  // Set up the audio for playback after user interaction
 
+            // Play sound after the drop event to ensure mobile compatibility
             const data = event.dataTransfer.getData("text");
             const target = event.target;
 
@@ -356,17 +343,18 @@
                     target.querySelector(".tick").style.display = "inline";
                     target.querySelector(".cross").style.display = "none";
                     phrase.style.display = "none";
-                    playSound(correctAudio);
+                    playSound(correctAudio);  // Play correct sound
                     checkCompletion();
                 } else {
                     target.querySelector(".cross").style.display = "inline";
                     target.querySelector(".tick").style.display = "none";
-                    playSound(incorrectAudio);
+                    playSound(incorrectAudio);  // Play incorrect sound
                     phrase.classList.remove("hidden");
                 }
             }
         }
 
+        // Function to play sound (from original code)
         function playSound(audio) {
             audio.currentTime = 0;  // Rewind the sound
             audio.play().catch(err => console.error("Audio playback error:", err));
@@ -411,6 +399,7 @@
         }
     });
 </script>
+
 
 </body>
 </html>
