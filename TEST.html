@@ -49,6 +49,7 @@
             transition: transform 0.2s;
             white-space: nowrap; /* Prevent text from wrapping */
             text-overflow: ellipsis; /* Add ellipsis if text overflows */
+            word-wrap: break-word;
         }
 
         .phrase:hover {
@@ -61,14 +62,18 @@
 
         .dropzone {
             background-color: #e9e9e9;
-            height: 50px;
             position: relative;
             padding: 10px;
             text-align: center;
             box-sizing: border-box;
-            display: inline-block;
+            display: flex;
+            flex-direction: column; /* Stack the phrases vertically */
+            justify-content: flex-start; /* Align to the top */
+            align-items: center;
             width: 100%; /* Ensure the drop zone has the same width as the phrases */
-            overflow: hidden; /* Ensure overflow is hidden */
+            min-height: 50px; /* Initial height for the drop zone */
+            overflow: hidden; /* Prevent overflow */
+            flex-grow: 1; /* Allow dropzone to expand as needed */
         }
 
         .dropzone .tick, .dropzone .cross {
@@ -269,8 +274,8 @@
 
     <!-- Completion Page -->
     <div id="completion" class="quiz-container hidden">
-        <h1>Wooohoooo! Your'e doing great! Well done!</h1>
-        <img src="https://teacherjoe.github.io/completion-image2.jpg" alt="Well Done" class="completion-image">
+        <h1>Well done, you're making progress! You will be speaking like a local in no time!</h1>
+        <img src="https://teacherjoe.github.io/completion-image.jpg" alt="Well Done" class="completion-image">
         <button class="restart-button" id="restart-btn">Restart Activity</button>
         <div class="footer">100% complete! Congratulations!</div>
     </div>
