@@ -153,9 +153,10 @@
   <div class="container">
     <h1>Advanced Greetings and Cultural Insights</h1>
 
-    <!-- Autoplay video: muted & controls for user to enable sound manually if desired -->
+    <!-- Autoplay video: no muted attribute, so audio attempts to play. 
+         Note that some browsers will still block autoplay with sound. -->
     <div class="video-container">
-      <video controls autoplay muted style="max-width: 100%; height: auto;">
+      <video controls autoplay style="max-width: 100%; height: auto;">
         <source src="intro-advanced-greetings.mp4" type="video/mp4">
         Your browser does not support the video tag.
       </video>
