@@ -14,7 +14,7 @@
       event.preventDefault();
       emailjs.sendForm("service_1oiyq3w", "template_1k97rid", event.target)
         .then(function() {
-          alert("Your feedback has been sent successfully!");
+          alert("Thank you for registering your interest! I will be in touch with you soon via WeChat.");
         }, function(error) {
           alert("Failed to send feedback. Please try again.");
           console.error("Error:", error);
@@ -68,6 +68,15 @@
     button:hover {
       background-color: #005bb5;
     }
+    .highlight {
+      background-color: #fffae6;
+      border: 1px solid #ffd700;
+      padding: 15px;
+      border-radius: 10px;
+      font-size: 1.2em;
+      text-align: center;
+      margin: 20px 0;
+    }
     .note {
       font-size: 0.9em;
       color: #555;
@@ -92,14 +101,21 @@
     </div>
     <p>
       I'm excited to start offering affordable small group Adult English conversation classes
-      (4 students per class). </p>
+      (maximum 4 students per class). These classes will be led by me, a highly experienced English teacher from the UK specializing in confidence and fluency. I’ve taught over 5,000 classes and am passionate about helping students achieve their English goals.
+    </p>
     <p>
-      These classes are at least 50% cheaper than private 1-on-1 lessons at only $20 (145RMB) for an hour class!
+      These classes will be at least 50% cheaper than private 1-on-1 lessons at only $20 (145RMB) for an hour class!
       </p>
     <p>
       They will focus on improving fluency, pronunciation, and confidence in a fun, supportive environment.
     </p>
-    <form onsubmit="sendEmail(event)">
+    <div class="highlight">
+      <strong>Free 10-Minute Trial Class or Consultation!</strong><br>
+      You will receive a 10-minute complimentary session to determine your level and goals.
+    </div>
+    <h3 style="text-align: center; color: #0078D7; margin-bottom: 20px;">Register Your Interest</h3>
+
+<form onsubmit="sendEmail(event)">
       <label for="wechat-id">WeChat ID:</label>
       <input type="text" id="wechat-id" name="wechat-id" placeholder="Enter your WeChat ID" required>
 
@@ -115,9 +131,18 @@
       <label for="topics">What topics would you like to cover?</label>
       <textarea id="topics" name="topics" rows="4" placeholder="e.g., Science and technology, Culture and entertainment, Food etc."></textarea>
 
+      <label for="level">What is your current English level?</label>
+      <select id="level" name="level" required>
+        <option value="beginner">Beginner</option>
+        <option value="intermediate">Intermediate</option>
+        <option value="advanced">Advanced</option>
+        <option value="not_sure">I'm not sure</option>
+      </select>
+      <p class="note">Don’t worry if you’re unsure of your current level! I can determine it during your free consultation.</p>
+
       <button type="submit">Submit</button>
     </form>
-    <p class="note">Your feedback helps me to create better, more affordable classes for you!</p>
+    <p class="note">Your feedback helps me to create and organise better, more affordable classes for you!</p>
   </div>
 </body>
 </html>
