@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Would affordable group English classes for adults benefit you?</title>
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script>
+    (function() {
+      emailjs.init("ZLlmooZQRiJ9H6pfI"); // Replace with your EmailJS Public Key
+    })();
+
+    function sendEmail(event) {
+      event.preventDefault();
+      emailjs.sendForm("service_1oiyq3w", "template_5yrdtap", event.target)
+        .then(function() {
+          alert("Your feedback has been sent successfully!");
+        }, function(error) {
+          alert("Failed to send feedback. Please try again.");
+          console.error("Error:", error);
+        });
+    }
+  </script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f9fc;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+    h2 {
+      text-align: center;
+      color: #0078D7;
+    }
+    p {
+      text-align: center;
+      font-size: 1.1em;
+    }
+    label {
+      display: block;
+      margin: 15px 0 5px;
+      font-weight: bold;
+    }
+    input, select, textarea, button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1em;
+    }
+    button {
+      background-color: #0078D7;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #005bb5;
+    }
+    .note {
+      font-size: 0.9em;
+      color: #555;
+    }
+    .image-container {
+      text-align: center;
+      margin: 20px 0;
+    }
+    .image-container img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Would affordable small group English classes for adults benefit you?</h2>
+    <div class="image-container">
+      <img src="https://teacherjoe.github.io/groupclass.jpg" alt="English Class Illustration">
+    </div>
+    <p>
+      I'm excited to start offering affordable small group Adult English conversation classes
+      (4 students per class). </p>
+    <p>
+      These classes are at least 50% cheaper than private 1-on-1 lessons at only $20 (145RMB) for an hour class!
+      </p>
+    <p>
+      They will focus on improving fluency, pronunciation, and confidence in a fun, supportive environment.
+    </p>
+    <form onsubmit="sendEmail(event)">
+      <label for="wechat-id">WeChat ID:</label>
+      <input type="text" id="wechat-id" name="wechat-id" placeholder="Enter your WeChat ID" required>
+
+      <label for="interest">Are you interested in joining small group classes?</label>
+      <select id="interest" name="interest" required>
+        <option value="yes">Yes</option>
+        <option value="no">No</option>
+      </select>
+
+      <label for="time">What time works best for you?</label>
+      <input type="text" id="time" name="time" placeholder="e.g., Weekday evenings, weekends">
+
+      <label for="topics">What topics would you like to cover?</label>
+      <textarea id="topics" name="topics" rows="4" placeholder="e.g., Science and technology, Culture and entertainment, Food etc."></textarea>
+
+      <button type="submit">Submit</button>
+    </form>
+    <p class="note">Your feedback helps me to create better, more affordable classes for you!</p>
+  </div>
+</body>
+</html>
