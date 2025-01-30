@@ -309,24 +309,7 @@
         
         <h2>Example Scenarios</h2>
 
-        <ul>
-            <li>
-                <div class="phrase-container">
-                    <strong>Greeting a Lecturer:</strong>
-                    <button class="listen-button" onclick="playAudioAndVideo('greeting-lecturer', 'video-greeting-lecturer', this)">
-                        <div class="progress-bar"></div>
-                        <span>Listen ▶️</span>
-                    </button>
-                </div>
-                <span style="font-size: 0.9em; color: #555;">“Good morning, Professor. How are you?”</span>
-                <div id="lecturer-video" style="text-align: center; margin: 20px auto; display: flex; justify-content: center;">
-                    <video id="video-greeting-lecturer" style="max-width: 100%; height: auto;" preload="auto">
-                        <source src="lecturer.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-            </li>
-          <li>
+    <li>
     <div class="phrase-container">
         <strong>Greeting a Lecturer:</strong>
         <button class="listen-button" onclick="playVideoOnly('video-greeting-lecturer')">
@@ -358,15 +341,22 @@
     </div>
 </li>
 
-        </ul>
-<h2>Practice Makes Perfect</h2>
-
-        <p>Try using these phrases in your daily interactions. Whether you're speaking to a professor, a shop assistant, or a new friend, these greetings and polite expressions will help you communicate effectively and courteously.</p>
-
-        <p><strong>Remember, in British culture, a little politeness goes a long way!</strong></p>
-        <p><strong>Next lesson:</strong>A drag and drop quiz to check your understanding!</p>
-
+<li>
+    <div class="phrase-container">
+        <strong>Asking for Help in a Store:</strong>
+        <button class="listen-button" onclick="playVideoOnly('video-help-store')">
+            <span>Play ▶️</span>
+        </button>
     </div>
+    <span style="font-size: 0.9em; color: #555;">“Excuse me, could you help me find this item, please?”</span>
+    <div id="store-video" style="text-align: center; margin: 20px auto; display: flex; justify-content: center;">
+        <video id="video-help-store" style="max-width: 100%; height: auto;" preload="auto" controls>
+            <source src="help-store.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+</li>
+
 
     <script>
 
