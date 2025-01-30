@@ -64,6 +64,21 @@
             margin: 10px 0;
         }
 
+        ul {
+            padding-left: 0;
+            margin: 20px 0;
+            list-style-type: none;
+        }
+
+        li {
+            font-size: 18px;
+            margin: 20px 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
         .phrase-container {
             display: flex;
             align-items: center;
@@ -109,8 +124,43 @@
         <h1>Practice Saying These Out Loud!</h1>
         <p>Click the button under each phrase to **listen and repeat**. Try saying them aloud to improve your pronunciation and fluency.</p>
 
-        <h2>Example Scenarios</h2>
+        <h2>Common Greetings</h2>
+        <ul>
+            <li>
+                <div class="phrase-container">
+                    <strong>“Good morning”</strong>
+                    <button class="listen-button" onclick="playAudio('good-morning')">
+                        <span>Listen ▶️</span>
+                    </button>
+                </div>
+            </li>
+            <li>
+                <div class="phrase-container">
+                    <strong>“Good afternoon”</strong>
+                    <button class="listen-button" onclick="playAudio('good-afternoon')">
+                        <span>Listen ▶️</span>
+                    </button>
+                </div>
+            </li>
+            <li>
+                <div class="phrase-container">
+                    <strong>“Good evening”</strong>
+                    <button class="listen-button" onclick="playAudio('good-evening')">
+                        <span>Listen ▶️</span>
+                    </button>
+                </div>
+            </li>
+            <li>
+                <div class="phrase-container">
+                    <strong>“Good night”</strong>
+                    <button class="listen-button" onclick="playAudio('good-night')">
+                        <span>Listen ▶️</span>
+                    </button>
+                </div>
+            </li>
+        </ul>
 
+        <h2>Example Scenarios</h2>
         <ul>
             <li>
                 <div class="phrase-container">
@@ -119,7 +169,7 @@
                         <span>Play ▶️</span>
                     </button>
                 </div>
-                <div id="lecturer-video" class="video-container">
+                <div class="video-container">
                     <video id="video-greeting-lecturer" controls preload="auto">
                         <source src="lecturer.mp4" type="video/mp4">
                         Your browser does not support the video tag.
@@ -134,7 +184,7 @@
                         <span>Play ▶️</span>
                     </button>
                 </div>
-                <div id="friend-video" class="video-container">
+                <div class="video-container">
                     <video id="video-meeting-friend" controls preload="auto">
                         <source src="meeting-friend.mp4" type="video/mp4">
                         Your browser does not support the video tag.
@@ -149,7 +199,7 @@
                         <span>Play ▶️</span>
                     </button>
                 </div>
-                <div id="store-video" class="video-container">
+                <div class="video-container">
                     <video id="video-help-store" controls preload="auto">
                         <source src="help-store.mp4" type="video/mp4">
                         Your browser does not support the video tag.
@@ -163,6 +213,21 @@
     </div>
 
     <script>
+        let currentAudio = null;
+        let currentVideo = null;
+
+        function playAudio(audioId) {
+            // Stop previous audio if playing
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+            }
+
+            // Create and play new audio
+            currentAudio = new Audio(`${audioId}.mp3`);
+            currentAudio.play().catch(error => console.error(`Error playing audio: ${error.message}`));
+        }
+
         function playVideoOnly(videoId) {
             // Stop any playing video
             document.querySelectorAll("video").forEach((vid) => {
