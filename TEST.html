@@ -287,37 +287,33 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function drag(event) {
-        event.dataTransfer.setData("text", event.target.id);
+        event.dataTransfer.setData("text", event.target.textContent); // Store only text
+        event.dataTransfer.setData("id", event.target.id); // Also store the element ID
         setTimeout(() => {
-            event.target.classList.add("hidden");
+            event.target.style.visibility = "hidden"; // Hide the blue box when dragging starts
         }, 0);
     }
 
     function endDrag(event) {
-        event.target.classList.remove("hidden");
+        event.target.style.visibility = "visible"; // Make it visible again if not dropped correctly
     }
 
     function drop(event) {
         event.preventDefault();
-        const data = event.dataTransfer.getData("text");
+        const droppedText = event.dataTransfer.getData("text"); // Get text
+        const droppedId = event.dataTransfer.getData("id"); // Get phrase ID
         const target = event.target;
 
         if (target.classList.contains("dropzone")) {
-            const phrase = document.getElementById(data);
-            if (data === target.getAttribute("data-correct")) {
-                const textNode = document.createElement("p");
-                textNode.textContent = phrase.textContent;
-                target.appendChild(textNode);
+            const correctAnswer = target.getAttribute("data-correct");
+
+            if (droppedId === correctAnswer) {
+                target.textContent = droppedText; // ✅ Show only text in the box (no blue background)
+                target.style.color = "black"; // Ensure text is visible
                 target.querySelector(".tick").style.display = "inline";
                 target.querySelector(".cross").style.display = "none";
-                phrase.style.display = "none";
 
-                // ✅ Ensure the phrase fits inside the drop zone
-                textNode.style.width = "100%";
-                textNode.style.boxSizing = "border-box";
-                textNode.style.textAlign = "center";
-                textNode.style.padding = "5px";
-                textNode.style.display = "inline-block"; // Makes text align properly
+                document.getElementById(droppedId).style.display = "none"; // ✅ Hide original phrase
 
                 correctAudio.currentTime = 0;
                 correctAudio.play();
@@ -330,7 +326,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 incorrectAudio.currentTime = 0;
                 incorrectAudio.play();
 
-                phrase.classList.remove("hidden");
+                document.getElementById(droppedId).style.visibility = "visible"; // Show phrase again
             }
         }
     }
@@ -340,7 +336,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const currentPageIndex = Array.from(pages).findIndex(page => !page.classList.contains("hidden"));
         const currentPage = pages[currentPageIndex];
         const dropzones = currentPage.querySelectorAll(".dropzone");
-        const allMatched = Array.from(dropzones).every(zone => zone.querySelector("p"));
+        const allMatched = Array.from(dropzones).every(zone => zone.textContent.trim().length > 0);
 
         if (allMatched) {
             if (currentPageIndex < pages.length - 2) {
@@ -363,17 +359,18 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById("page1").classList.remove("hidden");
 
         phrases.forEach(phrase => {
-            phrase.style.display = "block";
-            phrase.classList.remove("hidden");
+            phrase.style.display = "block"; // ✅ Show phrases again on restart
+            phrase.style.visibility = "visible";
         });
 
         dropzones.forEach(zone => {
-            zone.querySelector("p")?.remove();
+            zone.textContent = ""; // ✅ Clear drop zones
             zone.querySelector(".tick").style.display = "none";
             zone.querySelector(".cross").style.display = "none";
         });
     }
 });
+
 
 </script>
 </body>
