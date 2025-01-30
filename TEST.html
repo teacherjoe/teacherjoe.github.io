@@ -64,21 +64,6 @@
             margin: 10px 0;
         }
 
-        ul {
-            padding-left: 0;
-            margin: 20px 0;
-            list-style-type: none;
-        }
-
-        li {
-            font-size: 18px;
-            margin: 20px 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: flex-start;
-        }
-
         .phrase-container {
             display: flex;
             align-items: center;
@@ -102,308 +87,97 @@
             overflow: hidden;
         }
 
-        .progress-bar {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 0;
-            background-color: #4169e1;
-            z-index: 0;
-            transition: width 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
-        }
-
-        .listen-button span {
-            position: relative;
-            z-index: 1;
-        }
-
         .listen-button:hover {
             background-color: #28a745;
         }
 
-        .feedback {
-            color: #28a745;
-            font-size: 16px;
-            margin-top: 10px;
+        .video-container {
             text-align: center;
-            display: none;
-            width: 100%;
-            text-align: center;
+            margin: 10px auto;
         }
 
-        @media (max-width: 600px) {
-            .container {
-                padding: 15px;
-            }
-            h1 {
-                font-size: 28px;
-            }
-            .listen-button {
-                width: 100px;
-                font-size: 14px;
-            }
+        video {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
 <body>
     <div class="container">
-
         <h1>Practice Saying These Out Loud!</h1>
+        <p>Click the button under each phrase to **listen and repeat**. Try saying them aloud to improve your pronunciation and fluency.</p>
 
-        <p>You can click the audio button under each greeting and phrase to hear me speaking! Listen and practice saying them out aloud to become confident and comfortable using them!</p>
-
-        <h2>Common Greetings</h2>
-
-        <ul>
-            <li>
-                <div class="phrase-container">
-                    <strong>“Good morning”</strong>
-                    <button class="listen-button" onclick="playAudioAndVideo('good-morning', '', this)">
-                        <div class="progress-bar"></div>
-                        <span>Listen ▶️</span>
-                    </button>
-                </div>
-                <span style="font-size: 0.9em; color: #555;">Use before noon.</span>
-                <p class="feedback" style="display: none;">Your turn! Repeat out loud!</p>
-            </li>
-            <li>
-                <div class="phrase-container">
-                    <strong>“Good afternoon”</strong>
-                    <button class="listen-button" onclick="playAudioAndVideo('good-afternoon', '', this)">
-                        <div class="progress-bar"></div>
-                        <span>Listen ▶️</span>
-                    </button>
-                </div>
-                <span style="font-size: 0.9em; color: #555;">Use after 12 PM until around 5 PM.</span>
-                <p class="feedback" style="display: none;">Your turn! Repeat out loud!</p>
-            </li>
-            <li>
-                <div class="phrase-container">
-                    <strong>“Good evening”</strong>
-                    <button class="listen-button" onclick="playAudioAndVideo('good-evening', '', this)">
-                        <div class="progress-bar"></div>
-                        <span>Listen ▶️</span>
-                    </button>
-                </div>
-                <span style="font-size: 0.9em; color: #555;">Use after 5 PM, typically until bedtime.</span>
-                <p class="feedback" style="display: none;">Your turn! Repeat out loud!</p>
-            </li>
-            <li>
-                <div class="phrase-container">
-                    <strong>“Good night”</strong>
-                    <button class="listen-button" onclick="playAudioAndVideo('good-night', '', this)">
-                        <div class="progress-bar"></div>
-                        <span>Listen ▶️</span>
-                    </button>
-                </div>
-                <span style="font-size: 0.9em; color: #555;">Used as a farewell, not a greeting.</span>
-                <p class="feedback" style="display: none;">Your turn! Repeat out loud!</p>
-            </li>
-            <li>
-                <div class="phrase-container">
-                    <strong>“Hello”</strong>
-                    <button class="listen-button" onclick="playAudioAndVideo('hello', '', this)">
-                        <div class="progress-bar"></div>
-                        <span>Listen ▶️</span>
-                    </button>
-                </div>
-                <span style="font-size: 0.9em; color: #555;">Appropriate any time of day, a versatile greeting.</span>
-                <p class="feedback" style="display: none;">Your turn! Repeat out loud!</p>
-            </li>
-            <li>
-                <div class="phrase-container">
-                    <strong>“Hi”</strong>
-                    <button class="listen-button" onclick="playAudioAndVideo('hi', '', this)">
-                        <div class="progress-bar"></div>
-                        <span>Listen ▶️</span>
-                    </button>
-                </div>
-                <span style="font-size: 0.9em; color: #555;">A casual, friendly way to greet someone.</span>
-                <p class="feedback" style="display: none;">Your turn! Repeat out loud!</p>
-            </li>
-            <li>
-                <div class="phrase-container">
-                    <strong>“Alright?”</strong>
-                    <button class="listen-button" onclick="playAudioAndVideo('alright', '', this)">
-                        <div class="progress-bar"></div>
-                        <span>Listen ▶️</span>
-                    </button>
-                </div>
-                <span style="font-size: 0.9em; color: #555;">Common in informal settings, often means "How are you?"</span>
-                <p class="feedback" style="display: none;">Your turn! Repeat out loud!</p>
-            </li>
-            <li>
-                <div class="phrase-container">
-                    <strong>“How's it going?”</strong>
-                    <button class="listen-button" onclick="playAudioAndVideo('hows-it-going', '', this)">
-                        <div class="progress-bar"></div>
-                        <span>Listen ▶️</span>
-                    </button>
-                </div>
-                <span style="font-size: 0.9em; color: #555;">An informal way of saying "How are you?"</span>
-                <p class="feedback" style="display: none;">Your turn! Repeat out loud!</p>
-            </li>
-        </ul>
-
-        <h2>Polite Phrases</h2>
-
-        <ul>
-            <li>
-                <div class="phrase-container">
-                    <strong>“Please”</strong>
-                    <button class="listen-button" onclick="playAudioAndVideo('please', '', this)">
-                        <div class="progress-bar"></div>
-                        <span>Listen ▶️</span>
-                    </button>
-                </div>
-                <span style="font-size: 0.9em; color: #555;">Always include this when making a request.</span>
-                <p class="feedback" style="display: none;">Your turn! Repeat out loud!</p>
-            </li>
-            <li>
-                <div class="phrase-container">
-                    <strong>“Thank you”</strong>
-                    <button class="listen-button" onclick="playAudioAndVideo('thank-you', '', this)">
-                        <div class="progress-bar"></div>
-                        <span>Listen ▶️</span>
-                    </button>
-                </div>
-                <span style="font-size: 0.9em; color: #555;">Essential for expressing gratitude.</span>
-                <p class="feedback" style="display: none;">Your turn! Repeat out loud!</p>
-            </li>
-            <li>
-                <div class="phrase-container">
-                    <strong>“Excuse me”</strong>
-                    <button class="listen-button" onclick="playAudioAndVideo('excuse-me', '', this)">
-                        <div class="progress-bar"></div>
-                        <span>Listen ▶️</span>
-                    </button>
-                </div>
-                <span style="font-size: 0.9em; color: #555;">Use to politely get someone’s attention or to navigate through a crowd.</span>
-                <p class="feedback" style="display: none;">Your turn! Repeat out loud!</p>
-            </li>
-            <li>
-                <div class="phrase-container">
-                    <strong>“I’m sorry”</strong>
-                    <button class="listen-button" onclick="playAudioAndVideo('im-sorry', '', this)">
-                        <div class="progress-bar"></div>
-                        <span>Listen ▶️</span>
-                    </button>
-                </div>
-                <span style="font-size: 0.9em; color: #555;">Say this when you make a mistake or need to apologize.</span>
-                <p class="feedback" style="display: none;">Your turn! Repeat out loud!</p>
-            </li>
-            <li>
-                <div class="phrase-container">
-                    <strong>“Cheers”</strong>
-                    <button class="listen-button" onclick="playAudioAndVideo('cheers', '', this)">
-                        <div class="progress-bar"></div>
-                        <span>Listen ▶️</span>
-                    </button>
-                </div>
-                <span style="font-size: 0.9em; color: #555;">An informal way to say thank you in British English.</span>
-                <p class="feedback" style="display: none;">Your turn! Repeat out loud!</p>
-            </li>
-        </ul>
-
-        
         <h2>Example Scenarios</h2>
 
         <ul>
             <li>
                 <div class="phrase-container">
                     <strong>Greeting a Lecturer:</strong>
-                    <button class="listen-button" onclick="playAudioAndVideo('greeting-lecturer', 'video-greeting-lecturer', this)">
-                        <div class="progress-bar"></div>
-                        <span>Listen ▶️</span>
+                    <button class="listen-button" onclick="playVideoOnly('video-greeting-lecturer')">
+                        <span>Play ▶️</span>
                     </button>
                 </div>
-                <span style="font-size: 0.9em; color: #555;">“Good morning, Professor. How are you?”</span>
-                <div id="lecturer-video" style="text-align: center; margin: 20px auto; display: flex; justify-content: center;">
-                    <video id="video-greeting-lecturer" style="max-width: 100%; height: auto;" preload="auto">
+                <div id="lecturer-video" class="video-container">
+                    <video id="video-greeting-lecturer" controls preload="auto">
                         <source src="lecturer.mp4" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
                 </div>
             </li>
+
             <li>
                 <div class="phrase-container">
                     <strong>Meeting a Friend:</strong>
-                    <button class="listen-button" onclick="playAudioAndVideo('meeting-a-friend', 'video-meeting-friend', this)">
-                        <div class="progress-bar"></div>
-                        <span>Listen ▶️</span>
+                    <button class="listen-button" onclick="playVideoOnly('video-meeting-friend')">
+                        <span>Play ▶️</span>
                     </button>
                 </div>
-                <span style="font-size: 0.9em; color: #555;">“Hi! How’s it going?”</span>
-                <div id="friend-video" style="text-align: center; margin: 20px auto; display: flex; justify-content: center;">
-                    <video id="video-meeting-friend" style="max-width: 100%; height: auto;"  preload="auto">
+                <div id="friend-video" class="video-container">
+                    <video id="video-meeting-friend" controls preload="auto">
                         <source src="meeting-friend.mp4" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
                 </div>
             </li>
+
             <li>
                 <div class="phrase-container">
                     <strong>Asking for Help in a Store:</strong>
-                    <button class="listen-button" onclick="playAudioAndVideo('help-store', 'video-help-store', this)">
-                        <div class="progress-bar"></div>
-                        <span>Listen ▶️</span>
+                    <button class="listen-button" onclick="playVideoOnly('video-help-store')">
+                        <span>Play ▶️</span>
                     </button>
                 </div>
-                <span style="font-size: 0.9em; color: #555;">“Excuse me, could you help me find this item, please?”</span>
-                <div id="store-video" style="text-align: center; margin: 20px auto; display: flex; justify-content: center;">
-                    <video id="video-help-store" style="max-width: 100%; height: auto;"  preload="auto">
+                <div id="store-video" class="video-container">
+                    <video id="video-help-store" controls preload="auto">
                         <source src="help-store.mp4" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
                 </div>
             </li>
         </ul>
-<h2>Practice Makes Perfect</h2>
 
-        <p>Try using these phrases in your daily interactions. Whether you're speaking to a professor, a shop assistant, or a new friend, these greetings and polite expressions will help you communicate effectively and courteously.</p>
-
-        <p><strong>Remember, in British culture, a little politeness goes a long way!</strong></p>
-        <p><strong>Next lesson:</strong>A drag and drop quiz to check your understanding!</p>
-
+        <h2>Practice Makes Perfect</h2>
+        <p>Try using these phrases in real conversations. **Politeness and confidence go a long way in British culture!**</p>
     </div>
 
     <script>
-        function playAudioAndVideo(id, videoId, button) {
-            const audio = document.createElement('audio');
-            audio.src = `${id}.mp3`;
-            audio.preload = 'auto';
-            const progressBar = button.querySelector('.progress-bar');
-            const video = document.getElementById(videoId);
-            if (video) {
-                video.style.display = 'block'; // Ensure the video is visible
-            }
-
-            // Ensure video plays
-            if (video) {
-                video.currentTime = 0; // Reset video to start
-                video.play().catch(error => {
-                    console.error(`Error playing video file: ${error.message}`);
-                });
-            }
-
-            // Play audio
-            audio.addEventListener("timeupdate", () => {
-                const progress = (audio.currentTime / audio.duration) * 100;
-                progressBar.style.width = `${progress}%`;
-            });
-
-            audio.addEventListener("ended", () => {
-                progressBar.style.width = '0';
-                const feedback = button.parentElement.parentElement.querySelector('.feedback');
-                if (feedback) {
-                    feedback.style.display = "block";
+        function playVideoOnly(videoId) {
+            // Stop any playing video
+            document.querySelectorAll("video").forEach((vid) => {
+                if (vid.id !== videoId) {
+                    vid.pause();
+                    vid.currentTime = 0;
                 }
             });
 
-            audio.play().catch(error => {
-                console.error(`Error playing audio file: ${error.message}`);
-            });
+            // Play the selected video
+            const video = document.getElementById(videoId);
+            if (video) {
+                video.currentTime = 0;
+                video.play().catch(error => console.error(`Error playing video: ${error.message}`));
+            }
         }
     </script>
 </body>
