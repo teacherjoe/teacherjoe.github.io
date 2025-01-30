@@ -249,114 +249,112 @@ body {
 <audio id="incorrect-sound" src="incorrect.mp3"></audio>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    const phrases = document.querySelectorAll('.phrase');
-    const dropzones = document.querySelectorAll('.dropzone');
-    const restartBtn = document.getElementById('restart-btn');
+        const phrases = document.querySelectorAll('.phrase');
+        const dropzones = document.querySelectorAll('.dropzone');
+        const restartBtn = document.getElementById('restart-btn');
 
-    const applauseAudio = document.getElementById("applause-sound");
-    const correctAudio = document.getElementById("correct-sound");
-    const incorrectAudio = document.getElementById("incorrect-sound");
+        const applauseAudio = document.getElementById("applause-sound");
+        const correctAudio = document.getElementById("correct-sound");
+        const incorrectAudio = document.getElementById("incorrect-sound");
 
-    phrases.forEach(phrase => {
-        phrase.addEventListener('dragstart', drag);
-        phrase.addEventListener('dragend', endDrag);
-    });
-
-    dropzones.forEach(zone => {
-        zone.addEventListener('dragover', allowDrop);
-        zone.addEventListener('drop', drop);
-    });
-
-    restartBtn.addEventListener('click', restartActivity);
-
-    function allowDrop(event) {
-        event.preventDefault();
-    }
-
-    function drag(event) {
-        event.dataTransfer.setData("text", event.target.textContent); // Store only text
-        event.dataTransfer.setData("id", event.target.id); // Also store the element ID
-        setTimeout(() => {
-            event.target.style.visibility = "hidden"; // Hide the blue box when dragging starts
-        }, 0);
-    }
-
-    function endDrag(event) {
-        event.target.style.visibility = "visible"; // Make it visible again if not dropped correctly
-    }
-
-    function drop(event) {
-        event.preventDefault();
-        const droppedText = event.dataTransfer.getData("text"); // Get text
-        const droppedId = event.dataTransfer.getData("id"); // Get phrase ID
-        const target = event.target;
-
-        if (target.classList.contains("dropzone")) {
-            const correctAnswer = target.getAttribute("data-correct");
-
-            if (droppedId === correctAnswer) {
-                target.textContent = droppedText; // ✅ Show only text in the box (no blue background)
-                target.style.color = "black"; // Ensure text is visible
-                target.querySelector(".tick").style.display = "inline";
-                target.querySelector(".cross").style.display = "none";
-
-                document.getElementById(droppedId).style.display = "none"; // ✅ Hide original phrase
-
-                correctAudio.currentTime = 0;
-                correctAudio.play();
-
-                checkCompletion();
-            } else {
-                target.querySelector(".cross").style.display = "inline";
-                target.querySelector(".tick").style.display = "none";
-
-                incorrectAudio.currentTime = 0;
-                incorrectAudio.play();
-
-                document.getElementById(droppedId).style.visibility = "visible"; // Show phrase again
-            }
-        }
-    }
-
-    function checkCompletion() {
-        const pages = document.querySelectorAll(".quiz-container");
-        const currentPageIndex = Array.from(pages).findIndex(page => !page.classList.contains("hidden"));
-        const currentPage = pages[currentPageIndex];
-        const dropzones = currentPage.querySelectorAll(".dropzone");
-        const allMatched = Array.from(dropzones).every(zone => zone.textContent.trim().length > 0);
-
-        if (allMatched) {
-            if (currentPageIndex < pages.length - 2) {
-                currentPage.classList.add("hidden");
-                pages[currentPageIndex + 1].classList.remove("hidden");
-            } else {
-                currentPage.classList.add("hidden");
-                document.getElementById("completion").classList.remove("hidden");
-                document.getElementById("quiz-heading").classList.add("hidden");
-
-                applauseAudio.currentTime = 0;
-                applauseAudio.play();
-            }
-        }
-    }
-
-    function restartActivity() {
-        document.getElementById("quiz-heading").classList.remove("hidden");
-        document.getElementById("completion").classList.add("hidden");
-        document.getElementById("page1").classList.remove("hidden");
-
+        // Add drag and drop event listeners
         phrases.forEach(phrase => {
-            phrase.style.display = "block"; // ✅ Show phrases again on restart
-            phrase.style.visibility = "visible";
+            phrase.addEventListener('dragstart', drag);
+            phrase.addEventListener('dragend', endDrag);
         });
 
         dropzones.forEach(zone => {
-            zone.textContent = ""; // ✅ Clear drop zones
-            zone.querySelector(".tick").style.display = "none";
-            zone.querySelector(".cross").style.display = "none";
+            zone.addEventListener('dragover', allowDrop);
+            zone.addEventListener('drop', drop);
         });
-    }
-});
+
+        restartBtn.addEventListener('click', restartActivity);
+
+        function allowDrop(event) {
+            event.preventDefault();
+        }
+
+        function drag(event) {
+            event.dataTransfer.setData("text", event.target.id);
+            setTimeout(() => {
+                event.target.classList.add("hidden");
+            }, 0);
+        }
+
+        function endDrag(event) {
+            event.target.classList.remove("hidden");
+        }
+
+        function drop(event) {
+            event.preventDefault();
+            const data = event.dataTransfer.getData("text");
+            const target = event.target;
+
+            if (target.classList.contains("dropzone")) {
+                const phrase = document.getElementById(data);
+                if (data === target.getAttribute("data-correct")) {
+                    const textNode = document.createElement("p");
+                    textNode.textContent = phrase.textContent;
+                    target.appendChild(textNode);
+                    target.querySelector(".tick").style.display = "inline";
+                    target.querySelector(".cross").style.display = "none";
+                    phrase.style.display = "none";
+
+                    correctAudio.currentTime = 0;
+                    correctAudio.play();
+
+                    checkCompletion();
+                } else {
+                    target.querySelector(".cross").style.display = "inline";
+                    target.querySelector(".tick").style.display = "none";
+
+                    incorrectAudio.currentTime = 0;
+                    incorrectAudio.play();
+
+                    phrase.classList.remove("hidden");
+                }
+            }
+        }
+
+        function checkCompletion() {
+            const pages = document.querySelectorAll(".quiz-container");
+            const currentPageIndex = Array.from(pages).findIndex(page => !page.classList.contains("hidden"));
+            const currentPage = pages[currentPageIndex];
+            const dropzones = currentPage.querySelectorAll(".dropzone");
+            const allMatched = Array.from(dropzones).every(zone => zone.querySelector("p"));
+
+            if (allMatched) {
+                if (currentPageIndex < pages.length - 2) {
+                    currentPage.classList.add("hidden");
+                    pages[currentPageIndex + 1].classList.remove("hidden");
+                } else {
+                    currentPage.classList.add("hidden");
+                    document.getElementById("completion").classList.remove("hidden");
+                    document.getElementById("quiz-heading").classList.add("hidden");
+
+                    applauseAudio.currentTime = 0;
+                    applauseAudio.play();
+                }
+            }
+        }
+
+        function restartActivity() {
+            document.getElementById("quiz-heading").classList.remove("hidden");
+            document.getElementById("completion").classList.add("hidden");
+            document.getElementById("page1").classList.remove("hidden");
+
+            phrases.forEach(phrase => {
+                phrase.style.display = "block";
+                phrase.classList.remove("hidden");
+            });
+
+            dropzones.forEach(zone => {
+                zone.querySelector("p")?.remove();
+                zone.querySelector(".tick").style.display = "none";
+                zone.querySelector(".cross").style.display = "none";
+            });
+        }
+    });
 
 
 </script>
