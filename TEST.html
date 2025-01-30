@@ -3,352 +3,408 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Drag and Drop Quiz</title>
+    <title>Practice Page</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #FFFFFF;
+            font-family: 'Arial', sans-serif;
             margin: 0;
-            padding: 20px;
-            text-align: center;
-        }
-        .container {
-            max-width: 800px;
-            margin: auto;
-        }
-        .quiz-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .column {
-            width: 90%;
-            margin: 0 auto 20px;
-        }
-        .phrase, .dropzone, .restart-button {
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            text-align: center;
-            cursor: pointer;
-            border-radius: 25px;
-        }
-        .phrase {
-            background-color: #9ab8fe;
-            color: #fff;
-            transition: transform 0.2s;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            overflow: hidden;
-        }
-        .phrase:hover {
-            transform: scale(1.05);
-        }
-        .phrase.hidden {
-            visibility: hidden;
-        }
-        .dropzone {
-            background-color: #e9e9e9;
-            position: relative;
-            min-height: 50px; /* Minimum height */
-            padding: 10px;
-            box-sizing: border-box;
-            width: 100%;
-            overflow: auto; /* Allows scrolling if content is too large */
-            transition: all 0.2s ease; /* Smooth resizing */
-        }
-        .tick, .cross {
-            position: absolute;
-            right: 10px;
-            top: 5px;
-            font-size: 24px;
-            display: none;
-        }
-        .tick {
-            color: green;
-        }
-        .cross {
-            color: red;
-        }
-        .hidden {
-            display: none;
-        }
-        .footer {
-            margin-top: 20px;
-            font-weight: bold;
-        }
-        .restart-button {
-            background-color: #9ab8fe;
-            color: #fff;
-            border: none;
-            font-size: 16px;
-            transition: background-color 0.3s;
-        }
-        .restart-button:hover {
-            background-color: #7a98dc;
-        }
-        .completion-image {
-            width: 300px;
-            margin: 20px auto;
-        }
-        .instructions {
-            font-weight: bold;
-            color: black;
-            margin-bottom: 10px;
-        }
-        .arrow {
-            font-size: 24px;
-            color: black;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
         }
 
-        @media (max-width: 768px) {
-            .phrase, .dropzone {
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+            border-left: 6px solid #9ab8fe;
+        }
+
+        h1 {
+            font-size: 36px;
+            color: #4a4a4a;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        h1:after {
+            content: "";
+            display: block;
+            width: 60px;
+            height: 4px;
+            background-color: #9ab8fe;
+            margin: 10px auto 0;
+        }
+
+        h2 {
+            font-size: 24px;
+            color: #333;
+            margin: 20px 0 10px;
+            text-align: left;
+            position: relative;
+        }
+
+        h2:after {
+            content: "";
+            display: block;
+            width: 40px;
+            height: 2px;
+            background-color: #9ab8fe;
+            margin: 5px 0 10px;
+        }
+
+        p {
+            font-size: 18px;
+            color: #555;
+            margin: 10px 0;
+        }
+
+        ul {
+            padding-left: 0;
+            margin: 20px 0;
+            list-style-type: none;
+        }
+
+        li {
+            font-size: 18px;
+            margin: 20px 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        .phrase-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        strong { color: #333; }
+
+        .listen-button {
+            width: 120px;
+            height: 40px;
+            font-size: 16px;
+            color: #ffffff;
+            background-color: #9ab8fe;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0;
+            background-color: #4169e1;
+            z-index: 0;
+            transition: width 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+
+        .listen-button span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .listen-button:hover {
+            background-color: #28a745;
+        }
+
+        .feedback {
+            color: #28a745;
+            font-size: 16px;
+            margin-top: 10px;
+            text-align: center;
+            display: none;
+            width: 100%;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            h1 {
+                font-size: 28px;
+            }
+            .listen-button {
+                width: 100px;
                 font-size: 14px;
             }
         }
     </style>
-<script src="drag-drop-touch.esm.min.js?autoload" type="module"></script>
 </head>
 <body>
-<div class="container">
-    <h1 id="quiz-heading">Match each scenario with the most appropriate phrase. Pay attention to the time of day and the formality of the situation!</h1>
+    <div class="container">
 
-    <!-- Page 1 -->
-    <div id="page1" class="quiz-container">
-        <div class="instructions">Drag these <span class="arrow">↓</span></div>
-        <div class="column">
-            <div class="phrase" draggable="true" id="phrase1">“I’m absolutely gutted”</div>
-            <div class="phrase" draggable="true" id="phrase2">Arriving on time</div>
-            <div class="phrase" draggable="true" id="phrase3">“Would you mind...?”</div>
-            <div class="phrase" draggable="true" id="phrase4">Using "sorry" frequently</div>
-            <div class="phrase" draggable="true" id="phrase5">“I’m over the moon”</div>
-        </div>
-        <div class="instructions">Here <span class="arrow">↓</span></div>
-        <div class="column">
-            <div class="dropzone" data-correct="phrase1">
-                Expression of extreme disappointment
-                <span class="tick">&#10004;</span>
-                <span class="cross">&#10006;</span>
-            </div>
-            <div class="dropzone" data-correct="phrase5">
-                Expression of extreme happiness
-                <span class="tick">&#10004;</span>
-                <span class="cross">&#10006;</span>
-            </div>
-            <div class="dropzone" data-correct="phrase4">
-                Apologizing even when it’s not your fault
-                <span class="tick">&#10004;</span>
-                <span class="cross">&#10006;</span>
-            </div>
-            <div class="dropzone" data-correct="phrase3">
-                Making a polite request
-                <span class="tick">&#10004;</span>
-                <span class="cross">&#10006;</span>
-            </div>
-            <div class="dropzone" data-correct="phrase2">
-                Being punctual for appointments or meetings
-                <span class="tick">&#10004;</span>
-                <span class="cross">&#10006;</span>
-            </div>
-        </div>
-        <div class="footer">0% complete</div>
+        <h1>Practice Saying These Out Loud!</h1>
+
+        <p>You can click the audio button under each greeting and phrase to hear me speaking! Listen and practice saying them out aloud to become confident and comfortable using them!</p>
+
+        <h2>Common Greetings</h2>
+
+        <ul>
+            <li>
+                <div class="phrase-container">
+                    <strong>“Good morning”</strong>
+                    <button class="listen-button" onclick="playAudioAndVideo('good-morning', '', this)">
+                        <div class="progress-bar"></div>
+                        <span>Listen ▶️</span>
+                    </button>
+                </div>
+                <span style="font-size: 0.9em; color: #555;">Use before noon.</span>
+                <p class="feedback" style="display: none;">Your turn! Repeat out loud!</p>
+            </li>
+            <li>
+                <div class="phrase-container">
+                    <strong>“Good afternoon”</strong>
+                    <button class="listen-button" onclick="playAudioAndVideo('good-afternoon', '', this)">
+                        <div class="progress-bar"></div>
+                        <span>Listen ▶️</span>
+                    </button>
+                </div>
+                <span style="font-size: 0.9em; color: #555;">Use after 12 PM until around 5 PM.</span>
+                <p class="feedback" style="display: none;">Your turn! Repeat out loud!</p>
+            </li>
+            <li>
+                <div class="phrase-container">
+                    <strong>“Good evening”</strong>
+                    <button class="listen-button" onclick="playAudioAndVideo('good-evening', '', this)">
+                        <div class="progress-bar"></div>
+                        <span>Listen ▶️</span>
+                    </button>
+                </div>
+                <span style="font-size: 0.9em; color: #555;">Use after 5 PM, typically until bedtime.</span>
+                <p class="feedback" style="display: none;">Your turn! Repeat out loud!</p>
+            </li>
+            <li>
+                <div class="phrase-container">
+                    <strong>“Good night”</strong>
+                    <button class="listen-button" onclick="playAudioAndVideo('good-night', '', this)">
+                        <div class="progress-bar"></div>
+                        <span>Listen ▶️</span>
+                    </button>
+                </div>
+                <span style="font-size: 0.9em; color: #555;">Used as a farewell, not a greeting.</span>
+                <p class="feedback" style="display: none;">Your turn! Repeat out loud!</p>
+            </li>
+            <li>
+                <div class="phrase-container">
+                    <strong>“Hello”</strong>
+                    <button class="listen-button" onclick="playAudioAndVideo('hello', '', this)">
+                        <div class="progress-bar"></div>
+                        <span>Listen ▶️</span>
+                    </button>
+                </div>
+                <span style="font-size: 0.9em; color: #555;">Appropriate any time of day, a versatile greeting.</span>
+                <p class="feedback" style="display: none;">Your turn! Repeat out loud!</p>
+            </li>
+            <li>
+                <div class="phrase-container">
+                    <strong>“Hi”</strong>
+                    <button class="listen-button" onclick="playAudioAndVideo('hi', '', this)">
+                        <div class="progress-bar"></div>
+                        <span>Listen ▶️</span>
+                    </button>
+                </div>
+                <span style="font-size: 0.9em; color: #555;">A casual, friendly way to greet someone.</span>
+                <p class="feedback" style="display: none;">Your turn! Repeat out loud!</p>
+            </li>
+            <li>
+                <div class="phrase-container">
+                    <strong>“Alright?”</strong>
+                    <button class="listen-button" onclick="playAudioAndVideo('alright', '', this)">
+                        <div class="progress-bar"></div>
+                        <span>Listen ▶️</span>
+                    </button>
+                </div>
+                <span style="font-size: 0.9em; color: #555;">Common in informal settings, often means "How are you?"</span>
+                <p class="feedback" style="display: none;">Your turn! Repeat out loud!</p>
+            </li>
+            <li>
+                <div class="phrase-container">
+                    <strong>“How's it going?”</strong>
+                    <button class="listen-button" onclick="playAudioAndVideo('hows-it-going', '', this)">
+                        <div class="progress-bar"></div>
+                        <span>Listen ▶️</span>
+                    </button>
+                </div>
+                <span style="font-size: 0.9em; color: #555;">An informal way of saying "How are you?"</span>
+                <p class="feedback" style="display: none;">Your turn! Repeat out loud!</p>
+            </li>
+        </ul>
+
+        <h2>Polite Phrases</h2>
+
+        <ul>
+            <li>
+                <div class="phrase-container">
+                    <strong>“Please”</strong>
+                    <button class="listen-button" onclick="playAudioAndVideo('please', '', this)">
+                        <div class="progress-bar"></div>
+                        <span>Listen ▶️</span>
+                    </button>
+                </div>
+                <span style="font-size: 0.9em; color: #555;">Always include this when making a request.</span>
+                <p class="feedback" style="display: none;">Your turn! Repeat out loud!</p>
+            </li>
+            <li>
+                <div class="phrase-container">
+                    <strong>“Thank you”</strong>
+                    <button class="listen-button" onclick="playAudioAndVideo('thank-you', '', this)">
+                        <div class="progress-bar"></div>
+                        <span>Listen ▶️</span>
+                    </button>
+                </div>
+                <span style="font-size: 0.9em; color: #555;">Essential for expressing gratitude.</span>
+                <p class="feedback" style="display: none;">Your turn! Repeat out loud!</p>
+            </li>
+            <li>
+                <div class="phrase-container">
+                    <strong>“Excuse me”</strong>
+                    <button class="listen-button" onclick="playAudioAndVideo('excuse-me', '', this)">
+                        <div class="progress-bar"></div>
+                        <span>Listen ▶️</span>
+                    </button>
+                </div>
+                <span style="font-size: 0.9em; color: #555;">Use to politely get someone’s attention or to navigate through a crowd.</span>
+                <p class="feedback" style="display: none;">Your turn! Repeat out loud!</p>
+            </li>
+            <li>
+                <div class="phrase-container">
+                    <strong>“I’m sorry”</strong>
+                    <button class="listen-button" onclick="playAudioAndVideo('im-sorry', '', this)">
+                        <div class="progress-bar"></div>
+                        <span>Listen ▶️</span>
+                    </button>
+                </div>
+                <span style="font-size: 0.9em; color: #555;">Say this when you make a mistake or need to apologize.</span>
+                <p class="feedback" style="display: none;">Your turn! Repeat out loud!</p>
+            </li>
+            <li>
+                <div class="phrase-container">
+                    <strong>“Cheers”</strong>
+                    <button class="listen-button" onclick="playAudioAndVideo('cheers', '', this)">
+                        <div class="progress-bar"></div>
+                        <span>Listen ▶️</span>
+                    </button>
+                </div>
+                <span style="font-size: 0.9em; color: #555;">An informal way to say thank you in British English.</span>
+                <p class="feedback" style="display: none;">Your turn! Repeat out loud!</p>
+            </li>
+        </ul>
+
+        
+        <h2>Example Scenarios</h2>
+
+        <ul>
+            <li>
+                <div class="phrase-container">
+                    <strong>Greeting a Lecturer:</strong>
+                    <button class="listen-button" onclick="playAudioAndVideo('greeting-lecturer', 'video-greeting-lecturer', this)">
+                        <div class="progress-bar"></div>
+                        <span>Listen ▶️</span>
+                    </button>
+                </div>
+                <span style="font-size: 0.9em; color: #555;">“Good morning, Professor. How are you?”</span>
+                <div id="lecturer-video" style="text-align: center; margin: 20px auto; display: flex; justify-content: center;">
+                    <video id="video-greeting-lecturer" style="max-width: 100%; height: auto;" preload="auto">
+                        <source src="lecturer.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </li>
+            <li>
+                <div class="phrase-container">
+                    <strong>Meeting a Friend:</strong>
+                    <button class="listen-button" onclick="playAudioAndVideo('meeting-a-friend', 'video-meeting-friend', this)">
+                        <div class="progress-bar"></div>
+                        <span>Listen ▶️</span>
+                    </button>
+                </div>
+                <span style="font-size: 0.9em; color: #555;">“Hi! How’s it going?”</span>
+                <div id="friend-video" style="text-align: center; margin: 20px auto; display: flex; justify-content: center;">
+                    <video id="video-meeting-friend" style="max-width: 100%; height: auto;"  preload="auto">
+                        <source src="meeting-friend.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </li>
+            <li>
+                <div class="phrase-container">
+                    <strong>Asking for Help in a Store:</strong>
+                    <button class="listen-button" onclick="playAudioAndVideo('help-store', 'video-help-store', this)">
+                        <div class="progress-bar"></div>
+                        <span>Listen ▶️</span>
+                    </button>
+                </div>
+                <span style="font-size: 0.9em; color: #555;">“Excuse me, could you help me find this item, please?”</span>
+                <div id="store-video" style="text-align: center; margin: 20px auto; display: flex; justify-content: center;">
+                    <video id="video-help-store" style="max-width: 100%; height: auto;"  preload="auto">
+                        <source src="help-store.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </li>
+        </ul>
+<h2>Practice Makes Perfect</h2>
+
+        <p>Try using these phrases in your daily interactions. Whether you're speaking to a professor, a shop assistant, or a new friend, these greetings and polite expressions will help you communicate effectively and courteously.</p>
+
+        <p><strong>Remember, in British culture, a little politeness goes a long way!</strong></p>
+        <p><strong>Next lesson:</strong>A drag and drop quiz to check your understanding!</p>
+
     </div>
 
-    <!-- Page 2 -->
-    <div id="page2" class="quiz-container hidden">
-        <div class="instructions">Drag these <span class="arrow">↓</span></div>
-        <div class="column">
-            <div class="phrase" draggable="true" id="phrase6">“Excuse me”</div>
-            <div class="phrase" draggable="true" id="phrase7">Indirect communication</div>
-            <div class="phrase" draggable="true" id="phrase8">Using "please" and "thank you"</div>
-            <div class="phrase" draggable="true" id="phrase9">“Fancy meeting you here!”</div>
-            <div class="phrase" draggable="true" id="phrase10">Keeping personal space</div>
-        </div>
-        <div class="instructions">Here <span class="arrow">↓</span></div>
-        <div class="column">
-            <div class="dropzone" data-correct="phrase6">
-                Politely getting someone's attention
-                <span class="tick">&#10004;</span>
-                <span class="cross">&#10006;</span>
-            </div>
-            <div class="dropzone" data-correct="phrase9">
-                Expressing surprise at an unexpected meeting
-                <span class="tick">&#10004;</span>
-                <span class="cross">&#10006;</span>
-            </div>
-            <div class="dropzone" data-correct="phrase10">
-                Maintaining an arm's length distance in public places
-                <span class="tick">&#10004;</span>
-                <span class="cross">&#10006;</span>
-            </div>
-            <div class="dropzone" data-correct="phrase7">
-                Avoiding direct confrontation by using softer language
-                <span class="tick">&#10004;</span>
-                <span class="cross">&#10006;</span>
-            </div>
-            <div class="dropzone" data-correct="phrase8">
-                Demonstrating politeness in daily conversations
-                <span class="tick">&#10004;</span>
-                <span class="cross">&#10006;</span>
-            </div>
-        </div>
-        <div class="footer">33% complete</div>
-    </div>
-
-    <!-- Page 3 -->
-    <div id="page3" class="quiz-container hidden">
-        <div class="instructions">Drag these <span class="arrow">↓</span></div>
-        <div class="column">
-            <div class="phrase" draggable="true" id="phrase11">“I’m knackered”</div>
-            <div class="phrase" draggable="true" id="phrase12">“I’m sorry” when bumping into someone</div>
-            <div class="phrase" draggable="true" id="phrase13">Polite queueing</div>
-            <div class="phrase" draggable="true" id="phrase14">Arriving late</div>
-            <div class="phrase" draggable="true" id="phrase15">“Would you mind opening the window?”</div>
-        </div>
-        <div class="instructions">Here <span class="arrow">↓</span></div>
-        <div class="column">
-            <div class="dropzone" data-correct="phrase11">
-                Expression of extreme tiredness
-                <span class="tick">&#10004;</span>
-                <span class="cross">&#10006;</span>
-            </div>
-            <div class="dropzone" data-correct="phrase15">
-                Polite request with an indirect tone
-                <span class="tick">&#10004;</span>
-                <span class="cross">&#10006;</span>
-            </div>
-            <div class="dropzone" data-correct="phrase13">
-                Waiting your turn at a public event
-                <span class="tick">&#10004;</span>
-                <span class="cross">&#10006;</span>
-            </div>
-            <div class="dropzone" data-correct="phrase12">
-                Saying "sorry" even when it's not your fault
-                <span class="tick">&#10004;</span>
-                <span class="cross">&#10006;</span>
-            </div>
-            <div class="dropzone" data-correct="phrase14">
-                Not following the cultural norm of punctuality
-                <span class="tick">&#10004;</span>
-                <span class="cross">&#10006;</span>
-            </div>
-        </div>
-        <div class="footer">66% complete</div>
-    </div>
-
-    <!-- Completion Page -->
-    <div id="completion" class="quiz-container hidden">
-        <h1>Well done, you're making progress! You will be speaking like a local in no time!</h1>
-        <img src="https://teacherjoe.github.io/completion-image.jpg" alt="Well Done" class="completion-image">
-        <button class="restart-button" id="restart-btn">Restart Activity</button>
-        <div class="footer">100% complete! Congratulations!</div>
-    </div>
-</div>
-<audio id="applause-sound" src="applause.mp3"></audio>
-<audio id="correct-sound" src="correct.mp3"></audio>
-<audio id="incorrect-sound" src="incorrect.mp3"></audio>
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const phrases = document.querySelectorAll('.phrase');
-        const dropzones = document.querySelectorAll('.dropzone');
-        const restartBtn = document.getElementById('restart-btn');
-
-        phrases.forEach(phrase => {
-            phrase.addEventListener('dragstart', drag);
-            phrase.addEventListener('dragend', endDrag);
-        });
-
-        dropzones.forEach(zone => {
-            zone.addEventListener('dragover', allowDrop);
-            zone.addEventListener('drop', drop);
-        });
-
-        restartBtn.addEventListener('click', restartActivity);
-
-        function allowDrop(event) {
-            event.preventDefault();
-        }
-
-        function drag(event) {
-            event.dataTransfer.setData("text", event.target.id);
-            setTimeout(() => {
-                event.target.classList.add("hidden");
-            }, 0);
-        }
-
-        function endDrag(event) {
-            event.target.classList.remove("hidden");
-        }
-
-        function drop(event) {
-            event.preventDefault();
-            const data = event.dataTransfer.getData("text");
-            const target = event.target;
-
-            if (target.classList.contains("dropzone")) {
-                const phrase = document.getElementById(data);
-                if (data === target.getAttribute("data-correct")) {
-                    const textNode = document.createElement("p");
-                    textNode.textContent = phrase.textContent;
-                    target.appendChild(textNode);
-                    target.querySelector(".tick").style.display = "inline";
-                    target.querySelector(".cross").style.display = "none";
-                    phrase.style.display = "none";
-                    document.getElementById("correct-sound").play();
-
-                    // Resize dropzone dynamically based on content
-                    target.style.height = 'auto';  // Allow the dropzone to expand
-                    checkCompletion();
-                } else {
-                    target.querySelector(".cross").style.display = "inline";
-                    target.querySelector(".tick").style.display = "none";
-                    document.getElementById("incorrect-sound").play();
-                    phrase.classList.remove("hidden");
-                }
+    <script>
+        function playAudioAndVideo(id, videoId, button) {
+            const audio = document.createElement('audio');
+            audio.src = `${id}.mp3`;
+            audio.preload = 'auto';
+            const progressBar = button.querySelector('.progress-bar');
+            const video = document.getElementById(videoId);
+            if (video) {
+                video.style.display = 'block'; // Ensure the video is visible
             }
-        }
 
-        function checkCompletion() {
-            const pages = document.querySelectorAll(".quiz-container");
-            const currentPageIndex = Array.from(pages).findIndex(page => !page.classList.contains("hidden"));
-            const currentPage = pages[currentPageIndex];
-            const dropzones = currentPage.querySelectorAll(".dropzone");
-            const allMatched = Array.from(dropzones).every(zone => zone.querySelector("p"));
-
-            if (allMatched) {
-                if (currentPageIndex < pages.length - 2) {
-                    currentPage.classList.add("hidden");
-                    pages[currentPageIndex + 1].classList.remove("hidden");
-                } else {
-                    currentPage.classList.add("hidden");
-                    document.getElementById("completion").classList.remove("hidden");
-                    document.getElementById("quiz-heading").classList.add("hidden");
-
-                    const applauseAudio = document.getElementById("applause-sound");
-                    applauseAudio.currentTime = 0;
-                    applauseAudio.play().catch(err => console.error("Audio playback error:", err));
-                }
+            // Ensure video plays
+            if (video) {
+                video.currentTime = 0; // Reset video to start
+                video.play().catch(error => {
+                    console.error(`Error playing video file: ${error.message}`);
+                });
             }
-        }
 
-        function restartActivity() {
-            document.getElementById("quiz-heading").classList.remove("hidden");
-            document.getElementById("completion").classList.add("hidden");
-            document.getElementById("page1").classList.remove("hidden");
-
-            phrases.forEach(phrase => {
-                phrase.style.display = "block";
-                phrase.classList.remove("hidden");
+            // Play audio
+            audio.addEventListener("timeupdate", () => {
+                const progress = (audio.currentTime / audio.duration) * 100;
+                progressBar.style.width = `${progress}%`;
             });
 
-            dropzones.forEach(zone => {
-                zone.querySelector("p")?.remove();
-                zone.querySelector(".tick").style.display = "none";
-                zone.querySelector(".cross").style.display = "none";
-                zone.style.height = '50px'; // Reset height to minimum
+            audio.addEventListener("ended", () => {
+                progressBar.style.width = '0';
+                const feedback = button.parentElement.parentElement.querySelector('.feedback');
+                if (feedback) {
+                    feedback.style.display = "block";
+                }
+            });
+
+            audio.play().catch(error => {
+                console.error(`Error playing audio file: ${error.message}`);
             });
         }
-    });
-</script>
+    </script>
 </body>
 </html>
